@@ -22,6 +22,7 @@ export const HeaderOuterWrapper = styled.div`
 export const HeaderLogo = styled.div`
 	cursor: pointer;
 	width: 30%;
+	color: #000;
 `
 
 export const HeaderMenuItems = styled.div`
