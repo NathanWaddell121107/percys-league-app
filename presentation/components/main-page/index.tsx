@@ -121,6 +121,7 @@ const MainPage: React.FC = () => {
 				{matchedPlayers.map((match) => {
 					return (
 						<Styled.MatchedPlayer key={match.setId}>
+							<span>{match.setId}</span>
 							<Styled.MatchedPlayerName>{match.player1}</Styled.MatchedPlayerName>
 							<Styled.MatchedPlayerName versus>vs</Styled.MatchedPlayerName>
 							<Styled.MatchedPlayerName>{match.player2}</Styled.MatchedPlayerName>
