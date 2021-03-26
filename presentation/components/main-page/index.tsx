@@ -3,7 +3,12 @@ import * as Styled from './main-page.styles'
 import randomPlayerPairings from '../util/random-player-pairings'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Input, Form } from 'reactstrap'
-import { faPlus, faTimes, faSync } from '@fortawesome/free-solid-svg-icons'
+import {
+	faPlus,
+	faTimes,
+	faSync,
+	faTrash
+} from '@fortawesome/free-solid-svg-icons'
 
 /*
 TODO: 
@@ -55,6 +60,13 @@ const MainPage: React.FC = () => {
 		)
 		if (typeof window !== 'undefined') {
 			localStorage.setItem('addedPlayers', `${addedPlayers}`)
+		}
+	}
+
+	const removeAllPlayers = () => {
+		setAddedPlayers([])
+		if (typeof window !== 'undefined') {
+			localStorage.removeItem('addedPlayers')
 		}
 	}
 
@@ -116,11 +128,23 @@ const MainPage: React.FC = () => {
 					)
 				})}
 			</Styled.MatchedPlayersList>
-			<FontAwesomeIcon
-				style={{ marginTop: '20px', cursor: 'pointer' }}
-				onClick={() => shufflePlayersList()}
-				icon={faSync}
-			/>
+			{addedPlayers.length > 0 && (
+				<div style={{ marginTop: '40px' }}>
+					<FontAwesomeIcon
+						style={{ fontSize: '24px', marginRight: '40px', cursor: 'pointer' }}
+						color="white"
+						icon={faTrash}
+						onClick={() => {
+							removeAllPlayers()
+						}}
+					/>
+					<FontAwesomeIcon
+						style={{ fontSize: '24px', cursor: 'pointer' }}
+						onClick={() => shufflePlayersList()}
+						icon={faSync}
+					/>
+				</div>
+			)}
 		</Styled.MainPageWrapper>
 	)
 }
