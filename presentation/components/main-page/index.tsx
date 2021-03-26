@@ -117,7 +117,7 @@ const MainPage: React.FC = () => {
 				})}
 			</Styled.MatchedPlayersList>
 			<FontAwesomeIcon
-				style={{ marginTop: '20px' }}
+				style={{ marginTop: '20px', cursor: 'pointer' }}
 				onClick={() => shufflePlayersList()}
 				icon={faSync}
 			/>
