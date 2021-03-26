@@ -2,8 +2,8 @@ import * as React from 'react'
 import * as Styled from './main-page.styles'
 import randomPlayerPairings from '../util/random-player-pairings'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Label, Input, FormGroup, Form } from 'reactstrap'
-import { faMinus, faPlus, faTimes } from '@fortawesome/free-solid-svg-icons'
+import { Input, Form } from 'reactstrap'
+import { faPlus, faTimes, faSync } from '@fortawesome/free-solid-svg-icons'
 
 /*
 TODO: 
@@ -11,9 +11,18 @@ TODO:
     Needs to be updated to connect to a DB to store a playerList lineup that can be re-used / adjusted from week to week
 */
 
+interface MatchedPlayers {
+	player1: string | undefined
+	player2: string | undefined
+	setId: number
+}
+
 const MainPage: React.FC = () => {
 	const [addedPlayers, setAddedPlayers] = React.useState<Array<string>>([])
 	const [currentInput, setCurrentInput] = React.useState('')
+	const [matchedPlayers, setMatchedPlayers] = React.useState<
+		Array<MatchedPlayers>
+	>([])
 	const inputRef = React.useRef(null)
 	React.useEffect(() => {
 		if (typeof window !== 'undefined') {
@@ -23,7 +32,10 @@ const MainPage: React.FC = () => {
 			}
 		}
 	}, [])
-	const matchedPlayers = randomPlayerPairings(addedPlayers)
+
+	const shufflePlayersList = () => {
+		setMatchedPlayers(randomPlayerPairings(addedPlayers))
+	}
 
 	const addPlayersToStorage = (players: string[]) => {
 		if (typeof window !== 'undefined') {
@@ -104,6 +116,11 @@ const MainPage: React.FC = () => {
 					)
 				})}
 			</Styled.MatchedPlayersList>
+			<FontAwesomeIcon
+				style={{ marginTop: '20px' }}
+				onClick={() => shufflePlayersList()}
+				icon={faSync}
+			/>
 		</Styled.MainPageWrapper>
 	)
 }
