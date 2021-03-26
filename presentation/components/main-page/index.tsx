@@ -5,92 +5,107 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Label, Input, FormGroup, Form } from 'reactstrap'
 import { faMinus, faPlus, faTimes } from '@fortawesome/free-solid-svg-icons'
 
+/*
+TODO: 
+    To get the app up and running quickly, I am using localStorage for saving the state on refreshes
+    Needs to be updated to connect to a DB to store a playerList lineup that can be re-used / adjusted from week to week
+*/
+
 const MainPage: React.FC = () => {
-    const [addedPlayers, setAddedPlayers] = React.useState<Array<string>>([]);
-    const [currentInput, setCurrentInput] = React.useState('');
-    const inputRef = React.useRef(null);
-    const matchedPlayers = randomPlayerPairings(addedPlayers)
+	const [addedPlayers, setAddedPlayers] = React.useState<Array<string>>([])
+	const [currentInput, setCurrentInput] = React.useState('')
+	const inputRef = React.useRef(null)
+	React.useEffect(() => {
+		if (typeof window !== 'undefined') {
+			const existingAddedPlayers = localStorage.getItem('addedPlayers')?.split(',')
+			if (existingAddedPlayers) {
+				setAddedPlayers(existingAddedPlayers)
+			}
+		}
+	}, [])
+	const matchedPlayers = randomPlayerPairings(addedPlayers)
 
-    React.useEffect(() => {
-        console.log('addedPlayers: ', addedPlayers);
-    }, [addedPlayers]);
+	const addPlayersToStorage = (players: string[]) => {
+		if (typeof window !== 'undefined') {
+			localStorage.setItem('addedPlayers', `${players}`)
+		}
+		setAddedPlayers(players)
+	}
 
-    const removePlayer = (player: string) => {
-        if (!player) return
+	const removePlayer = (player: string) => {
+		if (!player) return
 
-        setAddedPlayers(addedPlayers.filter((p) => {
-            if (p === player) return false
-            return true
-        }))
-    }
+		setAddedPlayers(
+			addedPlayers.filter((p) => {
+				if (p === player) return false
+				return true
+			})
+		)
+		if (typeof window !== 'undefined') {
+			localStorage.setItem('addedPlayers', `${addedPlayers}`)
+		}
+	}
 
-    return (
-        <Styled.MainPageWrapper>
-            <Styled.InputContainer>
-                <Input
-                    type="text"
-                    id="playerName"
-                    name="playerName"
-                    placeholder="Player Name"
-                    value={currentInput}
-                    onChange={(e) => { setCurrentInput(e.target.value) }}
-                    ref={inputRef}
-                />
-                <div onClick={() => {
-                    const playersToBeUpdated = addedPlayers.concat(currentInput);
-                    setAddedPlayers(playersToBeUpdated)
-                    setCurrentInput('')
-                    console.log('playersToBeUpdated: ', playersToBeUpdated);
-                    console.log('currentInput: ', currentInput);
-                    console.log('playersList: ', addedPlayers);
-                }}><FontAwesomeIcon color="black" icon={faPlus} /></div>
-            </Styled.InputContainer>
-            <div
-                style={{
-                    backgroundColor: '#fff',
-                    display: 'flex',
-                    width: '70%',
-                    flexWrap: 'wrap',
-                }}>
-                {addedPlayers.map((player, index) => {
-                    return (
-                        <div
-                            key={index}
-                            style={{
-                                color: '#000',
-                                borderRight: '1px solid black',
-                                borderBottom: '1px solid black',
-                                padding: '2px',
-                                display: 'flex',
-                                justifyContent: 'space-around',
-                                alignItems: 'center',
-                                width: '50%'
-                            }}>
-                            <span style={{ width: '40%', textAlign: 'center' }}>
-                                {player}
-                            </span>
-                            <FontAwesomeIcon onClick={() => removePlayer(player)} icon={faTimes} color="red" size="sm" />
-                        </div>
-                    )
-                })}
-            </div>
-            <div style={{ backgroundColor: '#fff', display: 'flex', flexDirection: 'column' }}>
-                {matchedPlayers.map((match) => {
-                    return (
-                        <div key={match.setId} style={{ color: '#000', borderTop: '1px solid black', borderBottom: '1px solid black', padding: '10px', display: 'flex', justifyContent: 'space-around', width: '30vw' }}>
-                            <span style={{ width: '40%', textAlign: 'center' }}>
-                                {match.player1}
-                            </span>
-                            <span style={{ width: '20%', textAlign: 'center' }}>
-                                vs
-                            </span>
-                            <span style={{ width: '40%', textAlign: 'center' }}>{match.player2}</span>
-                        </div>
-                    )
-                })}</div>
-        </Styled.MainPageWrapper>
-
-    )
+	return (
+		<Styled.MainPageWrapper>
+			<Form
+				onSubmit={(e) => {
+					e.preventDefault()
+					const playersToBeUpdated = addedPlayers.concat(currentInput)
+					addPlayersToStorage(playersToBeUpdated)
+					setCurrentInput('')
+				}}>
+				<Styled.InputContainer>
+					<Input
+						type="text"
+						id="playerName"
+						name="playerName"
+						placeholder="Player Name"
+						value={currentInput}
+						onChange={(e) => {
+							setCurrentInput(e.target.value)
+						}}
+						ref={inputRef}
+					/>
+					<div
+						onClick={() => {
+							const playersToBeUpdated = addedPlayers.concat(currentInput)
+							addPlayersToStorage(playersToBeUpdated)
+							setCurrentInput('')
+						}}>
+						<FontAwesomeIcon color="black" icon={faPlus} />
+					</div>
+				</Styled.InputContainer>
+			</Form>
+			<Styled.AddedPlayersList>
+				{addedPlayers.map((player, index) => {
+					if (player === 'Bye') return null
+					return (
+						<Styled.AddedPlayer key={index}>
+							<Styled.PlayerName>{player}</Styled.PlayerName>
+							<FontAwesomeIcon
+								onClick={() => removePlayer(player)}
+								icon={faTimes}
+								color="red"
+								size="sm"
+							/>
+						</Styled.AddedPlayer>
+					)
+				})}
+			</Styled.AddedPlayersList>
+			<Styled.MatchedPlayersList>
+				{matchedPlayers.map((match) => {
+					return (
+						<Styled.MatchedPlayer key={match.setId}>
+							<Styled.MatchedPlayerName>{match.player1}</Styled.MatchedPlayerName>
+							<Styled.MatchedPlayerName versus>vs</Styled.MatchedPlayerName>
+							<Styled.MatchedPlayerName>{match.player2}</Styled.MatchedPlayerName>
+						</Styled.MatchedPlayer>
+					)
+				})}
+			</Styled.MatchedPlayersList>
+		</Styled.MainPageWrapper>
+	)
 }
 
 export default MainPage
