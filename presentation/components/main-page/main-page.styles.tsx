@@ -53,6 +53,8 @@ export const AddedPlayersList = styled.div`
 	width: 50%;
 	flex-wrap: wrap;
 	margin-bottom: 40px;
+	max-height: 400px;
+	overflow-y: auto;
 	@media (max-width: 768px) {
 		width: 100%;
 	}
@@ -62,14 +64,15 @@ export const AddedPlayer = styled.div`
 	color: #000;
 	padding: 10px;
 	display: flex;
-	justify-content: space-around;
+	justify-content: space-between;
 	align-items: center;
-	margin-right: 20px;
+	border: 1px solid black;
+	width: calc(100% * 1 / 3);
 	> svg {
 		cursor: pointer;
 	}
-	@media (max-width: 768px) {
-		justify-content: start;
+	@media (max-width: 500px) {
+		width: 50%;
 	}
 `
 
