@@ -16,6 +16,14 @@ TODO:
     Needs to be updated to connect to a DB to store a playerList lineup that can be re-used / adjusted from week to week
 */
 
+/*
+TODO:
+	Need to add the ability to mark a players skill level this will allow for quick reference as well as being able to calculate
+	the correct races between the two players dynamically
+
+	Not a massive priority until the database is created
+*/
+
 interface MatchedPlayers {
 	player1: string | undefined
 	player2: string | undefined
