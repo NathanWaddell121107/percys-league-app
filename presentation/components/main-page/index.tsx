@@ -4,11 +4,14 @@ import randomPlayerPairings from '../util/random-player-pairings'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Input, Form } from 'reactstrap'
 import {
-	faPlus,
-	faTimes,
-	faSync,
-	faTrash
+    faPlus,
+    faTimes,
+    faSync,
+    faTrash
 } from '@fortawesome/free-solid-svg-icons'
+import axios from 'axios'
+import fetchPlayers from '../../api-calls/get-players'
+import addPlayerPost from '../../api-calls/add-player'
 
 /*
 TODO: 
@@ -18,99 +21,112 @@ TODO:
 
 /*
 TODO:
-	Need to add the ability to mark a players skill level this will allow for quick reference as well as being able to calculate
-	the correct races between the two players dynamically
+    Need to add the ability to mark a players skill level this will allow for quick reference as well as being able to calculate
+    the correct races between the two players dynamically
 
-	Not a massive priority until the database is created
+    Not a massive priority until the database is created
 */
 
 interface MatchedPlayers {
-	player1: string | undefined
-	player2: string | undefined
-	setId: number
+    player1: string | undefined
+    player2: string | undefined
+    setId: number
 }
 
 const MainPage: React.FC = () => {
-	const [addedPlayers, setAddedPlayers] = React.useState<Array<string>>([])
-	const [currentInput, setCurrentInput] = React.useState('')
-	const [matchedPlayers, setMatchedPlayers] = React.useState<
-		Array<MatchedPlayers>
-	>([])
-	const inputRef = React.useRef(null)
-	React.useEffect(() => {
-		if (typeof window !== 'undefined') {
-			const existingAddedPlayers = localStorage.getItem('addedPlayers')?.split(',')
-			if (existingAddedPlayers) {
-				setAddedPlayers(existingAddedPlayers)
-			}
-		}
-	}, [])
+    // const [addedPlayer, setAddedPlayer] = React.useState<string>()
+    const [userAddedAPlayer, setUserAddedAPlayer] = React.useState(false)
+    const [currentInput, setCurrentInput] = React.useState('')
+    const [matchedPlayers, setMatchedPlayers] = React.useState<
+        Array<MatchedPlayers>
+    >([])
+    const inputRef = React.useRef(null)
+    // React.useEffect(() => {
+    // 	if (typeof window !== 'undefined') {
+    // 		const existingAddedPlayers = localStorage.getItem('addedPlayers')?.split(',')
+    // 		if (existingAddedPlayers) {
+    // 			setAddedPlayer(existingAddedPlayers)
+    // 		}
+    // 	}
+    // }, [])
 
-	const shufflePlayersList = () => {
-		setMatchedPlayers(randomPlayerPairings(addedPlayers))
-	}
+    React.useEffect(() => {
+        const getPlayers = async () => {
+            const apiPlayersNames = await fetchPlayers()
+            console.log('apiPlayersNames: ', apiPlayersNames)
+        }
+        getPlayers()
+    }, [userAddedAPlayer])
 
-	const addPlayersToStorage = (players: string[]) => {
-		if (typeof window !== 'undefined') {
-			localStorage.setItem('addedPlayers', `${players}`)
-		}
-		setAddedPlayers(players)
-	}
+    // const shufflePlayersList = () => {
+    // 	setMatchedPlayers(randomPlayerPairings(addedPlayers))
+    // }
 
-	const removePlayer = (player: string) => {
-		if (!player) return
+    const addPlayerToDatabase = async (player: string) => {
+        const { success, error } = await addPlayerPost(player)
 
-		setAddedPlayers(
-			addedPlayers.filter((p) => {
-				if (p === player) return false
-				return true
-			})
-		)
-		if (typeof window !== 'undefined') {
-			localStorage.setItem('addedPlayers', `${addedPlayers}`)
-		}
-	}
+        if (success) {
+            setUserAddedAPlayer(true)
+        } else {
+            alert('Uh-Oh player wasn`t added correctly')
+            console.log('error: ', error)
+        }
+    }
 
-	const removeAllPlayers = () => {
-		setAddedPlayers([])
-		if (typeof window !== 'undefined') {
-			localStorage.removeItem('addedPlayers')
-		}
-	}
+    // const removePlayer = (player: string) => {
+    // 	if (!player) return
 
-	return (
-		<Styled.MainPageWrapper>
-			<Form
-				onSubmit={(e) => {
-					e.preventDefault()
-					const playersToBeUpdated = addedPlayers.concat(currentInput)
-					addPlayersToStorage(playersToBeUpdated)
-					setCurrentInput('')
-				}}>
-				<Styled.InputContainer>
-					<Input
-						type="text"
-						id="playerName"
-						name="playerName"
-						placeholder="Player Name"
-						value={currentInput}
-						onChange={(e) => {
-							setCurrentInput(e.target.value)
-						}}
-						ref={inputRef}
-					/>
-					<div
-						onClick={() => {
-							const playersToBeUpdated = addedPlayers.concat(currentInput)
-							addPlayersToStorage(playersToBeUpdated)
-							setCurrentInput('')
-						}}>
-						<FontAwesomeIcon color="black" icon={faPlus} />
-					</div>
-				</Styled.InputContainer>
-			</Form>
-			<Styled.AddedPlayersList>
-				{addedPlayers.map((player, index) => {
+    // 	setAddedPlayers(
+    // 		addedPlayers.filter((p) => {
+    // 			if (p === player) return false
+    // 			return true
+    // 		})
+    // 	)
+    // 	if (typeof window !== 'undefined') {
+    // 		localStorage.setItem('addedPlayers', `${addedPlayers}`)
+    // 	}
+    // }
+
+    // const removeAllPlayers = () => {
+    // 	setAddedPlayers([])
+    // 	if (typeof window !== 'undefined') {
+    // 		localStorage.removeItem('addedPlayers')
+    // 	}
+    // }
+
+    return (
+        <Styled.MainPageWrapper>
+            <Form
+                onSubmit={(e) => {
+                    e.preventDefault()
+                    // const playersToBeUpdated = addedPlayers.concat(currentInput)
+                    addPlayerToDatabase(currentInput)
+                    setCurrentInput('')
+                }}>
+                <Styled.InputContainer>
+                    <Input
+                        type="text"
+                        id="playerName"
+                        name="playerName"
+                        placeholder="Player Name"
+                        value={currentInput}
+                        onChange={(e) => {
+                            setCurrentInput(e.target.value)
+                        }}
+                        ref={inputRef}
+                    />
+                    <div
+                        onClick={() => {
+                            // const playersToBeUpdated = addedPlayers.concat(currentInput)
+                            addPlayerToDatabase(currentInput)
+                            setCurrentInput('')
+                        }}>
+                        <FontAwesomeIcon color="black" icon={faPlus} />
+                    </div>
+                </Styled.InputContainer>
+            </Form>
+            <Styled.AddedPlayersList>
+                {/* {addedPlayers.map((player, index) => {
 					if (player === 'Bye') return null
 					return (
 						<Styled.AddedPlayer key={index}>
@@ -123,21 +139,21 @@ const MainPage: React.FC = () => {
 							/>
 						</Styled.AddedPlayer>
 					)
-				})}
-			</Styled.AddedPlayersList>
-			<Styled.MatchedPlayersList>
-				{matchedPlayers.map((match) => {
-					return (
-						<Styled.MatchedPlayer key={match.setId}>
-							<span>{match.setId}</span>
-							<Styled.MatchedPlayerName>{match.player1}</Styled.MatchedPlayerName>
-							<Styled.MatchedPlayerName versus>vs</Styled.MatchedPlayerName>
-							<Styled.MatchedPlayerName>{match.player2}</Styled.MatchedPlayerName>
-						</Styled.MatchedPlayer>
-					)
-				})}
-			</Styled.MatchedPlayersList>
-			{addedPlayers.length > 0 && (
+				})} */}
+            </Styled.AddedPlayersList>
+            <Styled.MatchedPlayersList>
+                {matchedPlayers.map((match) => {
+                    return (
+                        <Styled.MatchedPlayer key={match.setId}>
+                            <span>{match.setId}</span>
+                            <Styled.MatchedPlayerName>{match.player1}</Styled.MatchedPlayerName>
+                            <Styled.MatchedPlayerName versus>vs</Styled.MatchedPlayerName>
+                            <Styled.MatchedPlayerName>{match.player2}</Styled.MatchedPlayerName>
+                        </Styled.MatchedPlayer>
+                    )
+                })}
+            </Styled.MatchedPlayersList>
+            {/* {addedPlayers.length > 0 && (
 				<div style={{ marginTop: '40px' }}>
 					<FontAwesomeIcon
 						style={{ fontSize: '24px', marginRight: '40px', cursor: 'pointer' }}
@@ -153,9 +169,9 @@ const MainPage: React.FC = () => {
 						icon={faSync}
 					/>
 				</div>
-			)}
-		</Styled.MainPageWrapper>
-	)
+			)} */}
+        </Styled.MainPageWrapper>
+    )
 }
 
 export default MainPage
