@@ -2,8 +2,14 @@ import Head from 'next/head'
 import MainPage from '../presentation/components/main-page'
 import { GlobalStyle } from '../presentation/components/global-theme'
 import Header from '../presentation/components/header'
+import { connectToDatabase } from '../db/mongodb'
 
-export default function Home() {
+interface HomeProps {
+  isConnected: boolean;
+}
+
+export default function Home({ isConnected }: HomeProps) {
+  console.log('isConnected: ', isConnected)
   return (
     <>
       <GlobalStyle />
@@ -15,4 +21,14 @@ export default function Home() {
       <MainPage />
     </>
   )
+}
+
+export async function getServerSideProps() {
+  const { client } = await connectToDatabase()
+
+  const isConnected = await client.isConnected()
+
+  return {
+    props: { isConnected },
+  }
 }
