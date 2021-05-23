@@ -5,11 +5,11 @@ import Header from '../presentation/components/header'
 import { connectToDatabase } from '../db/mongodb'
 
 interface HomeProps {
-  isConnected: boolean;
+  databaseConnected: boolean;
 }
 
-export default function Home({ isConnected }: HomeProps) {
-  console.log('isConnected: ', isConnected)
+export default function Home({ databaseConnected }: HomeProps) {
+  console.log('databaseConnected: ', databaseConnected)
   return (
     <>
       <GlobalStyle />
@@ -24,11 +24,10 @@ export default function Home({ isConnected }: HomeProps) {
 }
 
 export async function getServerSideProps() {
-  const { client } = await connectToDatabase()
-
-  const isConnected = await client.isConnected()
+  const client = await connectToDatabase()
+  const databaseConnected = client.isConnected()
 
   return {
-    props: { isConnected },
+    props: { databaseConnected },
   }
 }
