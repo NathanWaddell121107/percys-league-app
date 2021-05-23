@@ -19,30 +19,28 @@ if (!MONGODB_DB) {
  * in development. This prevents connections growing exponentially
  * during API Route usage.
  */
-let cached = global.mongo
-
-if (!cached) {
-	cached = global.mongo = { conn: null, promise: null }
+declare global {
+	namespace NodeJS {
+		interface Global {
+			mongo: MongoClient | null
+		}
+	}
 }
 
+let cached = global.mongo
+
 export async function connectToDatabase() {
-	if (cached.conn) {
-		return cached.conn
+	if (cached) {
+		return cached
 	}
 
-	if (!cached.promise) {
+	if (!cached) {
 		const opts = {
 			useNewUrlParser: true,
 			useUnifiedTopology: true
 		}
 
-		cached.promise = MongoClient.connect(MONGODB_URI, opts).then((client) => {
-			return {
-				client,
-				db: client.db(MONGODB_DB)
-			}
-		})
+		cached = await MongoClient.connect(MONGODB_URI ?? '', opts)
 	}
-	cached.conn = await cached.promise
-	return cached.conn
+	return cached
 }
