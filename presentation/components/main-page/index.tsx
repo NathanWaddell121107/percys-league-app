@@ -12,6 +12,7 @@ import {
 import axios from 'axios'
 import fetchPlayers from '../../api-calls/get-players'
 import addPlayerPost from '../../api-calls/add-player'
+import playerDelete from '../../api-calls/delete-player'
 
 /*
 TODO: 
@@ -33,9 +34,14 @@ interface MatchedPlayers {
     setId: number
 }
 
+interface Player {
+    name: string;
+    _id: string;
+}
+
 const MainPage: React.FC = () => {
-    // const [addedPlayer, setAddedPlayer] = React.useState<string>()
-    const [userAddedAPlayer, setUserAddedAPlayer] = React.useState(false)
+    const [playersList, setPlayersList] = React.useState<Array<Player>>()
+    const [userUpdatedPlayers, setUserUpdatedPlayers] = React.useState(false)
     const [currentInput, setCurrentInput] = React.useState('')
     const [matchedPlayers, setMatchedPlayers] = React.useState<
         Array<MatchedPlayers>
@@ -54,9 +60,11 @@ const MainPage: React.FC = () => {
         const getPlayers = async () => {
             const apiPlayersNames = await fetchPlayers()
             console.log('apiPlayersNames: ', apiPlayersNames)
+            setPlayersList(apiPlayersNames.data);
+            setUserUpdatedPlayers(false)
         }
         getPlayers()
-    }, [userAddedAPlayer])
+    }, [userUpdatedPlayers])
 
     // const shufflePlayersList = () => {
     // 	setMatchedPlayers(randomPlayerPairings(addedPlayers))
@@ -66,26 +74,24 @@ const MainPage: React.FC = () => {
         const { success, error } = await addPlayerPost(player)
 
         if (success) {
-            setUserAddedAPlayer(true)
+            setUserUpdatedPlayers(true)
         } else {
             alert('Uh-Oh player wasn`t added correctly')
             console.log('error: ', error)
         }
     }
 
-    // const removePlayer = (player: string) => {
-    // 	if (!player) return
+    const removePlayer = async (playerId: string) => {
+        if (!playerId) return
+        const { success, error } = await playerDelete(playerId);
 
-    // 	setAddedPlayers(
-    // 		addedPlayers.filter((p) => {
-    // 			if (p === player) return false
-    // 			return true
-    // 		})
-    // 	)
-    // 	if (typeof window !== 'undefined') {
-    // 		localStorage.setItem('addedPlayers', `${addedPlayers}`)
-    // 	}
-    // }
+        if (success) {
+            setUserUpdatedPlayers(true)
+        } else {
+            alert('Uh-Oh player wasn`t deleted correctly');
+            console.log('error: ', error);
+        }
+    }
 
     // const removeAllPlayers = () => {
     // 	setAddedPlayers([])
@@ -126,20 +132,20 @@ const MainPage: React.FC = () => {
                 </Styled.InputContainer>
             </Form>
             <Styled.AddedPlayersList>
-                {/* {addedPlayers.map((player, index) => {
-					if (player === 'Bye') return null
-					return (
-						<Styled.AddedPlayer key={index}>
-							<Styled.PlayerName>{player}</Styled.PlayerName>
-							<FontAwesomeIcon
-								onClick={() => removePlayer(player)}
-								icon={faTimes}
-								color="red"
-								size="sm"
-							/>
-						</Styled.AddedPlayer>
-					)
-				})} */}
+                {playersList && playersList.map((player, index) => {
+                    // if (player === 'Bye') return null
+                    return (
+                        <Styled.AddedPlayer key={index}>
+                            <Styled.PlayerName>{player.name}</Styled.PlayerName>
+                            <FontAwesomeIcon
+                                onClick={() => removePlayer(player._id)}
+                                icon={faTimes}
+                                color="red"
+                                size="sm"
+                            />
+                        </Styled.AddedPlayer>
+                    )
+                })}
             </Styled.AddedPlayersList>
             <Styled.MatchedPlayersList>
                 {matchedPlayers.map((match) => {
