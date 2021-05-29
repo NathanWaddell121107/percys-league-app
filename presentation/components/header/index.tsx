@@ -15,7 +15,7 @@ const Header: React.FC = () => {
 						<Styled.HeaderLogo>Percys</Styled.HeaderLogo>
 					</Link>
 					<Styled.HeaderMenuItems>
-						<Link href="/">Standings</Link>
+						<Link href="/players">Players</Link>
 						<Link href="/">Schedule</Link>
 					</Styled.HeaderMenuItems>
 					<Styled.IconWrapper>

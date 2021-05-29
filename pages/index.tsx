@@ -1,8 +1,6 @@
-import Head from 'next/head'
 import MainPage from '../presentation/components/main-page'
-import { GlobalStyle } from '../presentation/components/global-theme'
-import Header from '../presentation/components/header'
 import { connectToDatabase } from '../db/mongodb'
+import Layout from '../presentation/components/layout'
 
 interface HomeProps {
   databaseConnected: boolean;
@@ -11,15 +9,9 @@ interface HomeProps {
 export default function Home({ databaseConnected }: HomeProps) {
   console.log('databaseConnected: ', databaseConnected)
   return (
-    <>
-      <GlobalStyle />
-      <Head>
-        <title>Percys League</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <Header />
+    <Layout>
       <MainPage />
-    </>
+    </Layout>
   )
 }
 
