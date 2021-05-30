@@ -5,7 +5,6 @@ export const PlayersWrapper = styled.div`
 	margin-top: 5rem;
 	max-width: 1200px;
 	width: 88%;
-	height: 85vh;
 	display: flex;
 	flex-direction: column;
 	align-items: center;

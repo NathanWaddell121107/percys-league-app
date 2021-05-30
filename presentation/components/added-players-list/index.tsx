@@ -1,9 +1,9 @@
+import * as React from 'react'
+import * as Styled from './added-players-list.styles'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import * as React from 'react'
 import { ListGroup, ListGroupItem } from 'reactstrap'
-import { Player } from '../add-players'
-import * as Styled from './added-players-list.styles'
+import { Player } from '../../interfaces/player'
 
 interface AddedPlayersListProps {
 	playersList?: Player[]
@@ -16,7 +16,12 @@ const AddedPlayersList: React.FC<AddedPlayersListProps> = ({
 }) => {
 	return (
 		<ListGroup
-			style={{ marginTop: '1rem', maxHeight: '350px', overflowY: 'auto' }}>
+			style={{
+				marginTop: '1rem',
+				maxHeight: '350px',
+				minHeight: '100px',
+				overflowY: 'auto'
+			}}>
 			{playersList &&
 				playersList.map((player, index) => {
 					return (
@@ -24,6 +29,7 @@ const AddedPlayersList: React.FC<AddedPlayersListProps> = ({
 							<Styled.GroupItem>
 								{player.name}
 								<FontAwesomeIcon
+									style={{ cursor: 'pointer' }}
 									color="black"
 									icon={faTrash}
 									onClick={() => removePlayer(player.name)}

@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
+import * as React from 'react'
 import * as Styled from './header.styles'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars } from '@fortawesome/free-solid-svg-icons'
 import Link from 'next/link'
 
 const Header: React.FC = () => {
-	const [navMenuIsOpen, setNavMenuIsOpen] = useState(false)
+	const [navMenuIsOpen, setNavMenuIsOpen] = React.useState(false)
 	const toggleNav = () => setNavMenuIsOpen(!navMenuIsOpen)
 	return (
 		<>

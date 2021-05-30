@@ -13,86 +13,35 @@ import {
 	ModalFooter,
 	ModalHeader
 } from 'reactstrap'
-import addPlayersPost from '../../api-calls/add-players'
-import playerDelete from '../../api-calls/delete-player'
-import fetchPlayers from '../../api-calls/get-players'
 import AddedPlayersList from '../added-players-list'
-
-export interface MatchedPlayers {
-	player1: string | undefined
-	player2: string | undefined
-	setId: number
-}
-
-export interface Player {
-	name: string
-	_id?: string
-}
+import { Player } from '../../interfaces/player'
+import { addPlayersPost } from '../util/player-methods'
 
 interface AddPlayersProps {
 	setShowAddPlayers: (showAddPlayers: boolean) => void
+	setUserUpdatedPlayers: (userUpdatedPlayers: boolean) => void
 	showAddPlayers: boolean
 }
 
 const AddPlayers: React.FC<AddPlayersProps> = ({
 	setShowAddPlayers,
-	showAddPlayers
+	showAddPlayers,
+	setUserUpdatedPlayers
 }) => {
-	const [playersList, setPlayersList] = React.useState<Array<Player>>()
 	const [playersToBeAdded, setPlayersToBeAdded] = React.useState<Array<Player>>()
-	const [userUpdatedPlayers, setUserUpdatedPlayers] = React.useState(false)
 	const [currentInput, setCurrentInput] = React.useState('')
-	const [matchedPlayers, setMatchedPlayers] = React.useState<
-		Array<MatchedPlayers>
-	>([])
 	const inputRef = React.useRef(null)
 
-	React.useEffect(() => {
-		const getPlayers = async () => {
-			const apiPlayersNames = await fetchPlayers()
-			console.log('apiPlayersNames: ', apiPlayersNames)
-			setPlayersList(apiPlayersNames.data)
-			setUserUpdatedPlayers(false)
-		}
-		getPlayers()
-	}, [userUpdatedPlayers])
-
-	// const shufflePlayersList = () => {
-	// 	setMatchedPlayers(randomPlayerPairings(addedPlayers))
-	// }
-
-	const addPlayersToDatabase = async (
-		players?: Player[]
-	): Promise<{
-		success?: boolean | undefined
-		error?: string | undefined
-	} | null> => {
-		if (!players) return null
-		// const playersDatabaseList = players.map((player) => player.name)
+	const addPlayersToDatabase = async (players?: Player[]): Promise<void> => {
+		if (!players) return
 		const { success, error } = await addPlayersPost(players)
 
 		if (success) {
 			setUserUpdatedPlayers(true)
-			return { success }
+			setShowAddPlayers(false)
 		} else {
+			// TODO: add a real error message / notification
 			alert('Uh-Oh player wasn`t added correctly')
-			console.log('error: ', error)
-			return { error }
-		}
-	}
-
-	const removePlayerFromTempList = (player: string) => {
-		const filteredPlayers = playersToBeAdded?.filter((p) => p.name !== player)
-		setPlayersToBeAdded(filteredPlayers)
-	}
-
-	const removePlayer = async (playerId: string) => {
-		const { success, error } = await playerDelete(playerId)
-
-		if (success) {
-			setUserUpdatedPlayers(true)
-		} else {
-			alert('Uh-Oh player wasn`t deleted correctly')
 			console.log('error: ', error)
 		}
 	}
@@ -108,13 +57,9 @@ const AddPlayers: React.FC<AddPlayersProps> = ({
 						onSubmit={(e) => {
 							e.preventDefault()
 							if (playersToBeAdded && playersToBeAdded.length > 0) {
-								console.log('playersToBeAdded: ', playersToBeAdded)
 								const addedPlayers = playersToBeAdded.concat({ name: currentInput })
-								console.log('addedPlayers: ', addedPlayers)
 								setPlayersToBeAdded(addedPlayers)
-							} else {
-								setPlayersToBeAdded([{ name: currentInput }])
-							}
+							} else setPlayersToBeAdded([{ name: currentInput }])
 							setCurrentInput('')
 						}}>
 						<InputGroup>
@@ -162,13 +107,7 @@ const AddPlayers: React.FC<AddPlayersProps> = ({
 					<Button
 						color="primary"
 						onClick={async () => {
-							const result = await addPlayersToDatabase(playersToBeAdded)
-							if (result?.success) {
-								setShowAddPlayers(false)
-							}
-							if (result?.error) {
-								alert('uhoh')
-							}
+							await addPlayersToDatabase(playersToBeAdded)
 						}}>
 						Save Players
 					</Button>
