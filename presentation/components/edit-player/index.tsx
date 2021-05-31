@@ -1,23 +1,32 @@
 import * as React from 'react'
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap'
 import { Player } from '../../interfaces/player'
+import { updatePlayer } from '../util/player-methods'
 import EditPlayerForm from './edit-player-form'
 
 interface EditPlayerProps {
 	editPlayerModalIsOpen: boolean
 	player: Player
 	setEditPlayerModalIsOpen: (editPlayerModalIsOpen: boolean) => void
+	setUserUpdatedPlayers: (userUpdatedPlayers: boolean) => void
 }
 
 const EditPlayer: React.FC<EditPlayerProps> = ({
 	editPlayerModalIsOpen,
 	player,
-	setEditPlayerModalIsOpen
+	setEditPlayerModalIsOpen,
+	setUserUpdatedPlayers
 }) => {
 	const [editPlayer, setEditPlayer] = React.useState<Player>(player)
 
 	const submitEditPlayer = async () => {
-		console.log('editPlayer after submit: ', editPlayer)
+		const { success, error } = await updatePlayer(editPlayer)
+		// TODO: handle error with a real message / notification
+		if (error) alert('Uh-oh, there was an error updating the player')
+		else if (success) {
+			setUserUpdatedPlayers(true)
+			setEditPlayerModalIsOpen(false)
+		}
 	}
 
 	return (
