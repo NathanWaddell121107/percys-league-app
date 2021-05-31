@@ -42,10 +42,10 @@ const EditPlayerForm: React.FC<EditPlayerFormProps> = ({
 				<Label check>
 					<Input
 						type="checkbox"
-						checked={editPlayer.eightBall}
+						checked={editPlayer.eightBall ?? false}
 						id="eightBall"
 						onChange={(e) => {
-							const changed = { ...editPlayer, eightBall: e.target.checked ?? false }
+							const changed = { ...editPlayer, eightBall: e.target.checked }
 							setEditPlayer(changed)
 						}}
 					/>
@@ -56,10 +56,10 @@ const EditPlayerForm: React.FC<EditPlayerFormProps> = ({
 				<Label check>
 					<Input
 						type="checkbox"
-						checked={editPlayer.nineBall}
+						checked={editPlayer.nineBall ?? false}
 						id="nineBall"
 						onChange={(e) => {
-							const changed = { ...editPlayer, nineBall: e.target.checked ?? false }
+							const changed = { ...editPlayer, nineBall: e.target.checked }
 							setEditPlayer(changed)
 						}}
 					/>
