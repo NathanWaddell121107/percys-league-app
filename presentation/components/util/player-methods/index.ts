@@ -47,3 +47,20 @@ export async function addPlayersPost(
 		return { success: false, error }
 	}
 }
+
+export async function updatePlayer(player: Player): Promise<DatabaseMutation> {
+	try {
+		const result = await axios.post(
+			`${window.location.origin}/api/update-player`,
+			{
+				player
+			}
+		)
+		console.log('update player result: ', result)
+		if (result.data.value._id) return { success: true }
+		else return { success: false }
+	} catch (error) {
+		console.log('error updating the player: ', error)
+		return { success: false, error }
+	}
+}
