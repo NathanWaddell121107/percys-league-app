@@ -2,12 +2,18 @@ import * as React from 'react'
 import * as Styled from './players-list.styles'
 import { Button, ListGroup, ListGroupItem } from 'reactstrap'
 import { Player } from '../../interfaces/player'
+import EditPlayer from '../edit-player'
 
 interface PlayersListProps {
 	playersList?: Player[]
+	setUserUpdatedPlayers: (userUpdatedPlayers: boolean) => void
 }
 
-const PlayersList: React.FC<PlayersListProps> = ({ playersList }) => {
+const PlayersList: React.FC<PlayersListProps> = ({
+	playersList,
+	setUserUpdatedPlayers
+}) => {
+	const [editPlayerModalIsOpen, setEditPlayerModalIsOpen] = React.useState(false)
 	return (
 		<>
 			<Styled.ListTitle>All Players</Styled.ListTitle>
@@ -25,8 +31,18 @@ const PlayersList: React.FC<PlayersListProps> = ({ playersList }) => {
 						return (
 							<ListGroupItem key={index}>
 								<Styled.GroupItem>
-									<span>{player.name}</span>
-									<Button>Edit</Button>
+									<span>
+										{player.name} {player.skillLevel && `(${player.skillLevel})`}
+									</span>
+									<Button onClick={() => setEditPlayerModalIsOpen(true)}>Edit</Button>
+									{editPlayerModalIsOpen && (
+										<EditPlayer
+											editPlayerModalIsOpen={editPlayerModalIsOpen}
+											player={player}
+											setEditPlayerModalIsOpen={setEditPlayerModalIsOpen}
+											setUserUpdatedPlayers={setUserUpdatedPlayers}
+										/>
+									)}
 								</Styled.GroupItem>
 							</ListGroupItem>
 						)

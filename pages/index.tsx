@@ -1,5 +1,4 @@
 import MainPage from '../presentation/components/main-page'
-import { connectToDatabase } from '../db/mongodb'
 import Layout from '../presentation/components/layout'
 
 export default function Home() {
@@ -8,8 +7,4 @@ export default function Home() {
 			<MainPage />
 		</Layout>
 	)
-}
-
-export async function getServerSideProps() {
-	await connectToDatabase()
 }
