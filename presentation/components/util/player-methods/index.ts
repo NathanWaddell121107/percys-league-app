@@ -56,7 +56,6 @@ export async function updatePlayer(player: Player): Promise<DatabaseMutation> {
 				player
 			}
 		)
-		console.log('update player result: ', result)
 		if (result.data.value._id) return { success: true }
 		else return { success: false }
 	} catch (error) {
