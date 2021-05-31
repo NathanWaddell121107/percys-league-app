@@ -42,6 +42,7 @@ export const HeaderMenuItems = styled.div`
 `
 
 export const IconWrapper = styled.div`
+	color: #000;
 	@media (min-width: 770px) {
 		display: none;
 	}
@@ -52,7 +53,6 @@ export const MobileHeaderMenuItems = styled.div`
 	flex-direction: column;
 	justify-content: space-evenly;
 	margin-top: 1rem;
-	color: #000;
 	> a {
 		text-decoration: none;
 		color: #000;
