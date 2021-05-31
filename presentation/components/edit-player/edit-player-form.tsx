@@ -3,27 +3,26 @@ import { Form, FormGroup, Input, Label } from 'reactstrap'
 import { Player } from '../../interfaces/player'
 
 interface EditPlayerFormProps {
-	player: Player
-	onSubmit: () => void
+	editPlayer: Player
+	setEditPlayer: (editPlayer: Player) => void
 }
 
 const EditPlayerForm: React.FC<EditPlayerFormProps> = ({
-	player,
-	onSubmit
+	editPlayer,
+	setEditPlayer
 }) => {
 	return (
-		<Form
-			onSubmit={(e) => {
-				e.preventDefault()
-				onSubmit()
-			}}>
+		<Form>
 			<FormGroup>
 				<Label for="name">Name</Label>
 				<Input
 					type="text"
 					id="name"
-					value={player.name ?? undefined}
-					onChange={(e) => {}}
+					defaultValue={editPlayer.name}
+					onChange={(e) => {
+						const changed = { ...editPlayer, name: e.target.value }
+						setEditPlayer(changed)
+					}}
 				/>
 			</FormGroup>
 			<FormGroup>
@@ -31,18 +30,24 @@ const EditPlayerForm: React.FC<EditPlayerFormProps> = ({
 				<Input
 					type="number"
 					id="skillLevel"
-					value={player.skillLevel ?? undefined}
+					defaultValue={editPlayer.skillLevel}
 					placeholder="1-9"
-					onChange={(e) => {}}
+					onChange={(e) => {
+						const changed = { ...editPlayer, skillLevel: e.target.value }
+						setEditPlayer(changed)
+					}}
 				/>
 			</FormGroup>
 			<FormGroup style={{ marginLeft: '5%' }}>
 				<Label check>
 					<Input
 						type="checkbox"
-						checked={player.eightBall}
+						checked={editPlayer.eightBall}
 						id="eightBall"
-						onChange={(e) => {}}
+						onChange={(e) => {
+							const changed = { ...editPlayer, eightBall: e.target.checked ?? false }
+							setEditPlayer(changed)
+						}}
 					/>
 					8-Ball
 				</Label>
@@ -51,9 +56,12 @@ const EditPlayerForm: React.FC<EditPlayerFormProps> = ({
 				<Label check>
 					<Input
 						type="checkbox"
-						checked={player.nineBall}
+						checked={editPlayer.nineBall}
 						id="nineBall"
-						onChange={(e) => {}}
+						onChange={(e) => {
+							const changed = { ...editPlayer, nineBall: e.target.checked ?? false }
+							setEditPlayer(changed)
+						}}
 					/>
 					9-Ball
 				</Label>
@@ -65,8 +73,11 @@ const EditPlayerForm: React.FC<EditPlayerFormProps> = ({
 					placeholder="Week #1 dues paid on 5/31/21, etc..."
 					id="notes"
 					name="notes"
-					value={player.notes ?? undefined}
-					onChange={(e) => {}}
+					defaultValue={editPlayer.notes}
+					onChange={(e) => {
+						const changed = { ...editPlayer, notes: e.target.value }
+						setEditPlayer(changed)
+					}}
 				/>
 			</FormGroup>
 		</Form>
