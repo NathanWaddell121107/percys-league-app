@@ -14,21 +14,26 @@ const Players: React.FC = () => {
 	React.useEffect(() => {
 		const getPlayers = async () => {
 			const { players, success, error } = await fetchPlayers()
-			console.log('apiPlayersNames: ', players)
 			if (!success) {
 				if (error) alert('Uh-oh, couldn`t retrieve the players list')
 				else
 					console.log(
 						'looks like there may not be any players yet. Double check the players collection'
 					)
-			} else if (players && players.length > 0) setPlayersList(players)
+			} else if (players && players.length > 0) {
+				setPlayersList(players)
+				setUserUpdatedPlayers(false)
+			}
 		}
 		getPlayers()
 	}, [userUpdatedPlayers])
 
 	return (
 		<Styled.PlayersWrapper>
-			<PlayersList playersList={playersList} />
+			<PlayersList
+				playersList={playersList}
+				setUserUpdatedPlayers={setUserUpdatedPlayers}
+			/>
 			<Button
 				style={{ marginTop: '1rem' }}
 				onClick={() => setShowAddPlayers(true)}>
