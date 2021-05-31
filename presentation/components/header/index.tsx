@@ -1,22 +1,22 @@
-import React, { useState } from 'react'
+import * as React from 'react'
 import * as Styled from './header.styles'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars } from '@fortawesome/free-solid-svg-icons'
 import Link from 'next/link'
 
 const Header: React.FC = () => {
-	const [navMenuIsOpen, setNavMenuIsOpen] = useState(false)
+	const [navMenuIsOpen, setNavMenuIsOpen] = React.useState(false)
 	const toggleNav = () => setNavMenuIsOpen(!navMenuIsOpen)
 	return (
 		<>
 			<Styled.HeaderOuterWrapper>
 				<Styled.HeaderWrapper>
 					<Link href="/">
-						<Styled.HeaderLogo>Percys Leagues</Styled.HeaderLogo>
+						<Styled.HeaderLogo>Percys</Styled.HeaderLogo>
 					</Link>
 					<Styled.HeaderMenuItems>
-						<Link href="#">Standings</Link>
-						<Link href="#">Schedule</Link>
+						<Link href="/players">Players</Link>
+						<Link href="/">Schedule</Link>
 					</Styled.HeaderMenuItems>
 					<Styled.IconWrapper>
 						<FontAwesomeIcon width="20px" icon={faBars} onClick={() => toggleNav()} />
@@ -24,8 +24,8 @@ const Header: React.FC = () => {
 				</Styled.HeaderWrapper>
 				{navMenuIsOpen && (
 					<Styled.MobileHeaderMenuItems>
-						<a href="#">Standings</a>
-						<a href="#">Schedule</a>
+						<a href="/">Standings</a>
+						<a href="/">Schedule</a>
 					</Styled.MobileHeaderMenuItems>
 				)}
 			</Styled.HeaderOuterWrapper>

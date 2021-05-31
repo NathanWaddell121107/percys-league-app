@@ -1,18 +1,15 @@
-import Head from 'next/head'
 import MainPage from '../presentation/components/main-page'
-import { GlobalStyle } from '../presentation/components/global-theme'
-import Header from '../presentation/components/header'
+import { connectToDatabase } from '../db/mongodb'
+import Layout from '../presentation/components/layout'
 
 export default function Home() {
-  return (
-    <>
-      <GlobalStyle />
-      <Head>
-        <title>Percys League</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <Header />
-      <MainPage />
-    </>
-  )
+	return (
+		<Layout>
+			<MainPage />
+		</Layout>
+	)
+}
+
+export async function getServerSideProps() {
+	await connectToDatabase()
 }
