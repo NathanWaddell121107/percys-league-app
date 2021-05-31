@@ -52,6 +52,7 @@ export const MobileHeaderMenuItems = styled.div`
 	flex-direction: column;
 	justify-content: space-evenly;
 	margin-top: 1rem;
+	color: #000;
 	> a {
 		text-decoration: none;
 		color: #000;

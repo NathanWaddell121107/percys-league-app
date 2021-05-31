@@ -24,7 +24,7 @@ const Header: React.FC = () => {
 				</Styled.HeaderWrapper>
 				{navMenuIsOpen && (
 					<Styled.MobileHeaderMenuItems>
-						<a href="/">Standings</a>
+						<a href="/players">Players</a>
 						<a href="/">Schedule</a>
 					</Styled.MobileHeaderMenuItems>
 				)}
