@@ -14,6 +14,7 @@ const PlayersList: React.FC<PlayersListProps> = ({
 	setUserUpdatedPlayers
 }) => {
 	const [editPlayerModalIsOpen, setEditPlayerModalIsOpen] = React.useState(false)
+	const [playerToBeEdited, setPlayerToBeEdited] = React.useState<Player>({ name: '' })
 	return (
 		<>
 			<Styled.ListTitle>All Players</Styled.ListTitle>
@@ -34,19 +35,22 @@ const PlayersList: React.FC<PlayersListProps> = ({
 									<span>
 										{player.name} {player.skillLevel && `(${player.skillLevel})`}
 									</span>
-									<Button onClick={() => setEditPlayerModalIsOpen(true)}>Edit</Button>
-									{editPlayerModalIsOpen && (
-										<EditPlayer
-											editPlayerModalIsOpen={editPlayerModalIsOpen}
-											player={player}
-											setEditPlayerModalIsOpen={setEditPlayerModalIsOpen}
-											setUserUpdatedPlayers={setUserUpdatedPlayers}
-										/>
-									)}
+									<Button onClick={() => { 
+										setPlayerToBeEdited(player)
+										setEditPlayerModalIsOpen(true) 
+										}}>Edit</Button>
 								</Styled.GroupItem>
 							</ListGroupItem>
 						)
 					})}
+					{editPlayerModalIsOpen && (
+						<EditPlayer
+							editPlayerModalIsOpen={editPlayerModalIsOpen}
+							player={playerToBeEdited}
+							setEditPlayerModalIsOpen={setEditPlayerModalIsOpen}
+							setUserUpdatedPlayers={setUserUpdatedPlayers}
+						/>
+					)}
 			</ListGroup>
 		</>
 	)
