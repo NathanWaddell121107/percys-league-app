@@ -42,55 +42,56 @@ const PlayersList: React.FC<PlayersListProps> = ({
 	return (
 		<>
 			<Styled.ListTitle>All Players</Styled.ListTitle>
-			<Table size="sm" responsive dark>
-				<thead>
-					<tr>
-						<th>Rating</th>
-						<th>Name</th>
-						<th></th>
-					</tr>
-				</thead>
-				<tbody>
-					{playersList &&
-						playersList.map((player, index) => {
-							const gameTypes = findGameTypes(player)
-							return (
-								<tr key={index}>
-									<td>{player.skillLevel}</td>
-									<td>{player.name}</td>
-									<td style={{ textAlign: 'end', paddingRight: '0.5rem' }}>
-										<Dropdown
-											isOpen={dropdownOpen.playerIndex === index && dropdownOpen.open}
-											toggle={() => toggle(index)}>
-											<DropdownToggle
-												style={{ cursor: 'pointer', paddingRight: '0.5rem' }}
-												tag="a">
-												<FontAwesomeIcon icon={faEllipsisH} />
-											</DropdownToggle>
-											<DropdownMenu>
-												<DropdownItem
-													onClick={() => {
-														setPlayerDetails(player)
-														setPlayerDetailsModalIsOpen(true)
-													}}>
-													Details
-												</DropdownItem>
-												<DropdownItem
-													onClick={() => {
-														setPlayerToBeEdited(player)
-														setEditPlayerModalIsOpen(true)
-													}}>
-													Edit Player
-												</DropdownItem>
-												<DropdownItem onClick={() => {}}>Delete Player</DropdownItem>
-											</DropdownMenu>
-										</Dropdown>
-									</td>
-								</tr>
-							)
-						})}
-				</tbody>
-			</Table>
+			<Styled.TableWrapper>
+				<Table size="sm" responsive dark>
+					<thead>
+						<tr>
+							<th style={{ paddingLeft: '10px' }}>Rating</th>
+							<th>Name</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						{playersList &&
+							playersList.map((player, index) => {
+								return (
+									<tr key={index}>
+										<td style={{ paddingLeft: '10px' }}>{player.skillLevel}</td>
+										<td>{player.name}</td>
+										<td style={{ textAlign: 'end', paddingRight: '0.5rem' }}>
+											<Dropdown
+												isOpen={dropdownOpen.playerIndex === index && dropdownOpen.open}
+												toggle={() => toggle(index)}>
+												<DropdownToggle
+													style={{ cursor: 'pointer', paddingRight: '0.5rem' }}
+													tag="a">
+													<FontAwesomeIcon icon={faEllipsisH} />
+												</DropdownToggle>
+												<DropdownMenu>
+													<DropdownItem
+														onClick={() => {
+															setPlayerDetails(player)
+															setPlayerDetailsModalIsOpen(true)
+														}}>
+														Details
+													</DropdownItem>
+													<DropdownItem
+														onClick={() => {
+															setPlayerToBeEdited(player)
+															setEditPlayerModalIsOpen(true)
+														}}>
+														Edit Player
+													</DropdownItem>
+													<DropdownItem onClick={() => {}}>Delete Player</DropdownItem>
+												</DropdownMenu>
+											</Dropdown>
+										</td>
+									</tr>
+								)
+							})}
+					</tbody>
+				</Table>
+			</Styled.TableWrapper>
 			{editPlayerModalIsOpen && (
 				<EditPlayer
 					editPlayerModalIsOpen={editPlayerModalIsOpen}
