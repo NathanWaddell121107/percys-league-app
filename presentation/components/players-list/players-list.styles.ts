@@ -17,3 +17,9 @@ export const TableWrapper = styled.div`
 	margin-top: 1rem;
 	overflow-y: auto;
 `
+
+export const TitleDiv = styled.div`
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+`

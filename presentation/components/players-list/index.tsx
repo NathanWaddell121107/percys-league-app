@@ -41,7 +41,10 @@ const PlayersList: React.FC<PlayersListProps> = ({
 
 	return (
 		<>
-			<Styled.ListTitle>All Players</Styled.ListTitle>
+			<Styled.TitleDiv>
+				<Styled.ListTitle>Players List</Styled.ListTitle>
+				<p>{`${playersList?.length} players`}</p>
+			</Styled.TitleDiv>
 			<Styled.TableWrapper>
 				<Table size="sm" responsive dark>
 					<thead>
