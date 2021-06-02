@@ -47,9 +47,7 @@ const PlayerDetails: React.FC<PlayerDetailsProps> = ({
 				</ListGroup>
 			</ModalBody>
 			<ModalFooter>
-				<Button
-					color="secondary"
-					onClick={() => setPlayerDetailsModalIsOpen(false)}>
+				<Button color="primary" onClick={() => setPlayerDetailsModalIsOpen(false)}>
 					Done
 				</Button>
 			</ModalFooter>
