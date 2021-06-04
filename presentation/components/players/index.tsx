@@ -6,6 +6,7 @@ import AddPlayers from '../add-players'
 import PlayersList from '../players-list'
 import { fetchPlayers } from '../util/player-methods'
 import LoadingIndicator from '../loading-indicator'
+import Link from 'next/link'
 
 const Players: React.FC = () => {
 	const [showAddPlayers, setShowAddPlayers] = React.useState(false)
@@ -43,6 +44,11 @@ const Players: React.FC = () => {
 				style={{ marginTop: '1rem' }}
 				onClick={() => setShowAddPlayers(true)}>
 				Add Players
+			</Button>
+			<Button style={{ margin: '1rem 0' }} color="secondary">
+				<Link href="/matches">
+					<span style={{ color: '#fff' }}>Create Matches</span>
+				</Link>
 			</Button>
 			{showAddPlayers && (
 				<AddPlayers

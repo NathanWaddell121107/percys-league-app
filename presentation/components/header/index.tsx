@@ -12,7 +12,7 @@ const Header: React.FC = () => {
 			<Styled.HeaderOuterWrapper>
 				<Styled.HeaderWrapper>
 					<Link href="/">
-						<Styled.HeaderLogo>Percys</Styled.HeaderLogo>
+						<Styled.HeaderLogo>Percy's League</Styled.HeaderLogo>
 					</Link>
 					<Styled.HeaderMenuItems>
 						<Link href="/players">Players</Link>
