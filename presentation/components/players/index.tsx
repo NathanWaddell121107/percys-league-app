@@ -5,6 +5,7 @@ import { Player } from '../../interfaces/player'
 import AddPlayers from '../add-players'
 import PlayersList from '../players-list'
 import { fetchPlayers } from '../util/player-methods'
+import LoadingIndicator from '../loading-indicator'
 
 const Players: React.FC = () => {
 	const [showAddPlayers, setShowAddPlayers] = React.useState(false)
@@ -27,6 +28,10 @@ const Players: React.FC = () => {
 		}
 		getPlayers()
 	}, [userUpdatedPlayers])
+
+	if (!playersList) {
+		return <LoadingIndicator />
+	}
 
 	return (
 		<Styled.PlayersWrapper>
