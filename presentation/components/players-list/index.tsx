@@ -9,10 +9,10 @@ import {
 } from 'reactstrap'
 import { Player } from '../../interfaces/player'
 import EditPlayer from '../edit-player'
-import findGameTypes from '../util/find-game-types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEllipsisH } from '@fortawesome/free-solid-svg-icons'
 import PlayerDetails from '../player-details'
+import DeletePlayerConfirmation from '../delete-player-confirmation'
 
 interface PlayersListProps {
 	playersList?: Player[]
@@ -24,7 +24,14 @@ const PlayersList: React.FC<PlayersListProps> = ({
 	setUserUpdatedPlayers
 }) => {
 	const [editPlayerModalIsOpen, setEditPlayerModalIsOpen] = React.useState(false)
+	const [
+		deletePlayerConfirmationModalIsOpen,
+		setDeletePlayerConfirmationModalIsOpen
+	] = React.useState(false)
 	const [playerToBeEdited, setPlayerToBeEdited] = React.useState<Player>({
+		name: ''
+	})
+	const [playerToBeDeleted, setPlayerToBeDeleted] = React.useState<Player>({
 		name: ''
 	})
 	const [playerDetails, setPlayerDetails] = React.useState<Player>({ name: '' })
@@ -85,7 +92,13 @@ const PlayersList: React.FC<PlayersListProps> = ({
 														}}>
 														Edit Player
 													</DropdownItem>
-													<DropdownItem onClick={() => {}}>Delete Player</DropdownItem>
+													<DropdownItem
+														onClick={() => {
+															setPlayerToBeDeleted(player)
+															setDeletePlayerConfirmationModalIsOpen(true)
+														}}>
+														Delete Player
+													</DropdownItem>
 												</DropdownMenu>
 											</Dropdown>
 										</td>
@@ -108,6 +121,16 @@ const PlayersList: React.FC<PlayersListProps> = ({
 					player={playerDetails}
 					playerDetailsModalIsOpen={playerDetailsModalIsOpen}
 					setPlayerDetailsModalIsOpen={setPlayerDetailsModalIsOpen}
+				/>
+			)}
+			{deletePlayerConfirmationModalIsOpen && (
+				<DeletePlayerConfirmation
+					player={playerToBeDeleted}
+					deletePlayerConfirmationModalIsOpen={deletePlayerConfirmationModalIsOpen}
+					setDeletePlayerConfirmationModalIsOpen={
+						setDeletePlayerConfirmationModalIsOpen
+					}
+					setUserUpdatedPlayers={setUserUpdatedPlayers}
 				/>
 			)}
 		</>
