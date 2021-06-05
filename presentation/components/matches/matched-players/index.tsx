@@ -12,9 +12,8 @@ interface MatchedPlayersProps {
 const MatchedPlayersGames: React.FC<MatchedPlayersProps> = ({
 	selectedPlayers
 }) => {
-	const [matchedPlayers, setMatchedPlayers] = React.useState<
-		Array<MatchedPlayers>
-	>()
+	const [matchedPlayers, setMatchedPlayers] =
+		React.useState<Array<MatchedPlayers>>()
 
 	React.useEffect(() => {
 		setMatchedPlayers(randomPlayerPairings(selectedPlayers))

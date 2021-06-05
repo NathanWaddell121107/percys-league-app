@@ -5,6 +5,8 @@ const randomPlayerPairings = (playersList: Player[]): MatchedPlayers[] => {
 	const splitPlayersAndShuffle = (
 		playersList: Player[]
 	): { arr1: Player[]; arr2: Player[] } => {
+		// initial shuffle before split
+		playersList.sort(() => 0.5 - Math.random())
 		const arr1 = playersList
 			.slice(0, playersList.length / 2)
 			.sort(() => 0.5 - Math.random())
@@ -38,7 +40,6 @@ const randomPlayerPairings = (playersList: Player[]): MatchedPlayers[] => {
 			player2: arr2.pop()
 		})
 	}
-	console.log('matchedPlayersList: ', matchedPlayersList)
 	return matchedPlayersList
 }
 
