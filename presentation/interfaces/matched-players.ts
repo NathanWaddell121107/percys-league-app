@@ -1,5 +1,6 @@
+import { Player } from './player'
+
 export interface MatchedPlayers {
-	player1: string | undefined
-	player2: string | undefined
-	setId: number
+	player1: Player | undefined
+	player2: Player | undefined
 }
