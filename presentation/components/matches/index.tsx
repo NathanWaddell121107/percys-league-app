@@ -5,11 +5,13 @@ import LoadingIndicator from '../loading-indicator'
 import { fetchPlayers } from '../util/player-methods'
 import SelectPlayers from './select-players'
 import { Button } from 'reactstrap'
+import MatchedPlayersGames from './matched-players'
 
 const Matches: React.FC = () => {
 	const [selectPlayersModalIsOpen, setSelectPlayersModalIsOpen] = React.useState(
 		true
 	)
+	const [matchPlayers, setMatchPlayers] = React.useState(false)
 	const [selectedPlayers, setSelectedPlayers] = React.useState<Array<Player>>([])
 	const [playersList, setPlayersList] = React.useState<Array<Player>>()
 
@@ -42,6 +44,7 @@ const Matches: React.FC = () => {
 					players={playersList}
 					setSelectedPlayers={setSelectedPlayers}
 					selectedPlayers={selectedPlayers}
+					setMatchPlayers={setMatchPlayers}
 				/>
 			)}
 			{!selectedPlayers && (
@@ -54,6 +57,7 @@ const Matches: React.FC = () => {
 					</Button>
 				</Styled.SelectPlayersMessage>
 			)}
+			{matchPlayers && <MatchedPlayersGames selectedPlayers={selectedPlayers} />}
 		</>
 	)
 }

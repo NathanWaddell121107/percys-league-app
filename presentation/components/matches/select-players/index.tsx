@@ -18,6 +18,7 @@ interface SelectPlayersProps {
 	players: Player[]
 	setSelectedPlayers: (players: Player[]) => void
 	selectedPlayers: Player[]
+	setMatchPlayers: (matchPlayers: boolean) => void
 }
 
 const SelectPlayers: React.FC<SelectPlayersProps> = ({
@@ -25,7 +26,8 @@ const SelectPlayers: React.FC<SelectPlayersProps> = ({
 	setSelectPlayersModalIsOpen,
 	players,
 	setSelectedPlayers,
-	selectedPlayers
+	selectedPlayers,
+	setMatchPlayers
 }) => {
 	const playerIsSelected = (playerAtCurrentIndex: Player) => {
 		if (!selectedPlayers) return false
@@ -75,7 +77,14 @@ const SelectPlayers: React.FC<SelectPlayersProps> = ({
 					color="secondary">
 					Cancel
 				</Button>
-				<Button color="primary">Create Games</Button>
+				<Button
+					onClick={() => {
+						setSelectPlayersModalIsOpen(false)
+						setMatchPlayers(true)
+					}}
+					color="primary">
+					Create Games
+				</Button>
 			</ModalFooter>
 		</Modal>
 	)
