@@ -1,13 +1,10 @@
-const randomPlayerPairings = (
-	playersList: string[]
-): Array<{
-	player1: string | undefined
-	player2: string | undefined
-	setId: number
-}> => {
+import { MatchedPlayers } from '../../interfaces/matched-players'
+import { Player } from '../../interfaces/player'
+
+const randomPlayerPairings = (playersList: Player[]): MatchedPlayers[] => {
 	const splitPlayersAndShuffle = (
-		playersList: string[]
-	): { arr1: string[]; arr2: string[] } => {
+		playersList: Player[]
+	): { arr1: Player[]; arr2: Player[] } => {
 		const arr1 = playersList
 			.slice(0, playersList.length / 2)
 			.sort(() => 0.5 - Math.random())
@@ -18,16 +15,18 @@ const randomPlayerPairings = (
 	}
 
 	const matchedPlayersList = []
-	let setId = 1
 
-	if (playersList.length % 2 !== 0 && playersList.includes('Bye')) {
+	if (playersList.length % 2 !== 0 && playersList.includes({ name: 'Bye' })) {
 		// If there is an even amount of players, and an existing Bye, we need to remove the bye from the list
 		playersList = playersList.filter((p) => {
-			return p !== 'Bye'
+			return p.name !== 'Bye'
 		})
-	} else if (playersList.length % 2 !== 0 && !playersList.includes('Bye')) {
+	} else if (
+		playersList.length % 2 !== 0 &&
+		!playersList.includes({ name: 'Bye' })
+	) {
 		// If there is an uneven amount of players, we need to add a bye to the list
-		playersList.push('Bye')
+		playersList.push({ name: 'Bye' })
 	}
 
 	// Split the list of players in half and shuffle them to make it random each time
@@ -36,10 +35,8 @@ const randomPlayerPairings = (
 	while (arr1.length) {
 		matchedPlayersList.push({
 			player1: arr1.pop(),
-			player2: arr2.pop(),
-			setId: setId
+			player2: arr2.pop()
 		})
-		setId++
 	}
 	console.log('matchedPlayersList: ', matchedPlayersList)
 	return matchedPlayersList
