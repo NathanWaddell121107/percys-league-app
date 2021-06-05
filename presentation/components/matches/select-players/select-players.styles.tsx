@@ -18,3 +18,13 @@ export const ListPlayer = styled(ListGroupItem)`
 	display: flex !important;
 	justify-content: space-between;
 `
+
+export const SelectAll = styled.div`
+	display: flex;
+	justify-content: flex-end;
+	padding: 0.5rem;
+	> span {
+		cursor: pointer;
+		color: #007bff;
+	}
+`

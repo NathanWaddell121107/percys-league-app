@@ -33,15 +33,29 @@ const SelectPlayers: React.FC<SelectPlayersProps> = ({
 		if (!selectedPlayers) return false
 		return selectedPlayers.includes(playerAtCurrentIndex)
 	}
+	const [shouldDeselectAll, setShouldDeselectAll] = React.useState(false)
 
 	return (
 		<Modal style={{ color: 'black' }} size="lg" isOpen={selectPlayersModalIsOpen}>
 			<ModalHeader>Select players</ModalHeader>
 			<ModalBody>
 				<Styled.Explanation>
-					Click on the player names in the list below, then click the Create Games
-					button
+					Click on the player names in the list below to select (click twice to
+					unselect), then click the Create Games button
 				</Styled.Explanation>
+				<Styled.SelectAll>
+					<span
+						onClick={() => {
+							if (shouldDeselectAll) {
+								setSelectedPlayers([])
+							} else {
+								setSelectedPlayers(players)
+							}
+							setShouldDeselectAll(!shouldDeselectAll)
+						}}>
+						{shouldDeselectAll ? 'Unselect All' : 'Select All'}
+					</span>
+				</Styled.SelectAll>
 				<Styled.PlayersContainer>
 					{players.map((player, index) => {
 						return (
