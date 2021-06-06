@@ -2,15 +2,14 @@ import * as React from 'react'
 import * as Styled from './matches.styles'
 import { Player } from '../../interfaces/player'
 import LoadingIndicator from '../loading-indicator'
-import { fetchPlayers } from '../util/player-methods'
+import { fetchPlayers, fetchSelectedPlayers } from '../util/player-methods'
 import SelectPlayers from './select-players'
 import { Button } from 'reactstrap'
 import MatchedPlayersGames from './matched-players'
 
 const Matches: React.FC = () => {
-	const [selectPlayersModalIsOpen, setSelectPlayersModalIsOpen] = React.useState(
-		true
-	)
+	const [selectPlayersModalIsOpen, setSelectPlayersModalIsOpen] =
+		React.useState(true)
 	const [matchPlayers, setMatchPlayers] = React.useState(false)
 	const [selectedPlayers, setSelectedPlayers] = React.useState<Array<Player>>([])
 	const [playersList, setPlayersList] = React.useState<Array<Player>>()
@@ -29,6 +28,19 @@ const Matches: React.FC = () => {
 			}
 		}
 		getPlayers()
+	}, [])
+
+	React.useEffect(() => {
+		const getSelectedPlayers = async () => {
+			const { players, success, error } = await fetchSelectedPlayers()
+			if (!success) {
+				if (error) alert('Uh-oh, couldn`t retrieve the players list')
+				else console.log('looks like there may not be any selected players yet')
+			} else if (players && players.length > 0) {
+				setSelectedPlayers(players)
+			}
+		}
+		getSelectedPlayers()
 	}, [])
 
 	if (!playersList) {
