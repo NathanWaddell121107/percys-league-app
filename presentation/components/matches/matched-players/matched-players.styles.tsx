@@ -8,5 +8,14 @@ export const MatchedPlayersWrapper = styled.div`
 `
 
 export const TitleDiv = styled.div`
+	width: 90%;
 	margin: 1rem 0;
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	> span {
+		color: #007bff;
+		cursor: pointer;
+		align-self: flex-end;
+	}
 `

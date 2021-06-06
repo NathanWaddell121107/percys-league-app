@@ -62,6 +62,24 @@ export async function addPlayersPost(
 	}
 }
 
+export async function addSelectedPlayersPost(
+	players: Player[]
+): Promise<DatabaseMutation> {
+	try {
+		const result = await axios.post(
+			`${window.location.origin}/api/add-selected-players`,
+			{
+				players
+			}
+		)
+		if (result.data.insertedCount > 0) return { success: true }
+		else return { success: false }
+	} catch (error) {
+		console.log('error adding a selected player: ', error)
+		return { success: false, error }
+	}
+}
+
 export async function updatePlayer(player: Player): Promise<DatabaseMutation> {
 	try {
 		const result = await axios.post(
@@ -74,6 +92,21 @@ export async function updatePlayer(player: Player): Promise<DatabaseMutation> {
 		else return { success: false }
 	} catch (error) {
 		console.log('error updating the player: ', error)
+		return { success: false, error }
+	}
+}
+
+export async function dropCollection(
+	collection: string
+): Promise<DatabaseMutation> {
+	try {
+		await axios.post(`${window.location.origin}/api/drop-collection`, {
+			collection
+		})
+		return { success: true }
+	} catch (error) {
+		// Shouldn't matter - not a critical error while testing
+		// console.log('error dropping the collection: ', error)
 		return { success: false, error }
 	}
 }

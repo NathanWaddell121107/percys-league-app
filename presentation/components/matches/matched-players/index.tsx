@@ -7,17 +7,19 @@ import { Table } from 'reactstrap'
 
 interface MatchedPlayersProps {
 	selectedPlayers: Player[]
+	setSelectPlayersModalIsOpen: (selectPlayersModalIsOpen: boolean) => void
 }
 
 const MatchedPlayersGames: React.FC<MatchedPlayersProps> = ({
-	selectedPlayers
+	selectedPlayers,
+	setSelectPlayersModalIsOpen
 }) => {
 	const [matchedPlayers, setMatchedPlayers] =
 		React.useState<Array<MatchedPlayers>>()
 
 	React.useEffect(() => {
 		setMatchedPlayers(randomPlayerPairings(selectedPlayers))
-	}, [])
+	}, [selectedPlayers])
 
 	const createNameAndSkillLevel = (player: Player | undefined) => {
 		if (!player) return ''
@@ -28,6 +30,9 @@ const MatchedPlayersGames: React.FC<MatchedPlayersProps> = ({
 		<Styled.MatchedPlayersWrapper>
 			<Styled.TitleDiv>
 				<h2>Games</h2>
+				<span onClick={() => setSelectPlayersModalIsOpen(true)}>
+					Change Players
+				</span>
 			</Styled.TitleDiv>
 			<Table
 				style={{

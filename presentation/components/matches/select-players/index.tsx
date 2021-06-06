@@ -4,6 +4,10 @@ import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap'
 import { Player } from '../../../interfaces/player'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
+import {
+	addSelectedPlayersPost,
+	dropCollection
+} from '../../util/player-methods'
 
 interface SelectPlayersProps {
 	selectPlayersModalIsOpen: boolean
@@ -22,11 +26,32 @@ const SelectPlayers: React.FC<SelectPlayersProps> = ({
 	selectedPlayers,
 	setMatchPlayers
 }) => {
-	const playerIsSelected = (playerAtCurrentIndex: Player) => {
+	const playerIsSelected = (playerAtCurrentIndex: Player): boolean => {
 		if (!selectedPlayers) return false
-		return selectedPlayers.includes(playerAtCurrentIndex)
+		let foundMatch = false
+		selectedPlayers.forEach((player) => {
+			if (player._id === playerAtCurrentIndex._id) foundMatch = true
+		})
+		return foundMatch
 	}
 	const [shouldDeselectAll, setShouldDeselectAll] = React.useState(false)
+
+	const addSelectedPlayersToDatabase = async (): Promise<void> => {
+		if (!selectedPlayers) return
+		const byesRemoved = selectedPlayers.filter((player) => player.name !== 'Bye')
+		await dropCollection('selectedplayers')
+
+		const { success, error } = await addSelectedPlayersPost(byesRemoved)
+
+		if (success) {
+			setSelectPlayersModalIsOpen(false)
+			setMatchPlayers(true)
+		} else {
+			// TODO: add a real error message / notification
+			alert('Uh-Oh selected players weren`t added correctly')
+			console.log('error: ', error)
+		}
+	}
 
 	return (
 		<Modal style={{ color: 'black' }} size="lg" isOpen={selectPlayersModalIsOpen}>
@@ -55,13 +80,12 @@ const SelectPlayers: React.FC<SelectPlayersProps> = ({
 							<Styled.ListPlayer
 								onClick={() => {
 									if (playerIsSelected(player)) {
-										// Remove the player from list if clicked twice
+										// Remove the player from list if already selected and user clicks them again
 										const filteredList = selectedPlayers.filter(
 											(p) => player._id !== p._id
 										)
 										setSelectedPlayers(filteredList)
 									} else if (selectedPlayers && selectedPlayers.length > 0) {
-										// Add selectedPlayers if there is already a list by concat
 										setSelectedPlayers(selectedPlayers.concat(player))
 									} else {
 										// if first player, just create a new list
@@ -85,10 +109,7 @@ const SelectPlayers: React.FC<SelectPlayersProps> = ({
 					Cancel
 				</Button>
 				<Button
-					onClick={() => {
-						setSelectPlayersModalIsOpen(false)
-						setMatchPlayers(true)
-					}}
+					onClick={async () => await addSelectedPlayersToDatabase()}
 					color="primary">
 					Create Games
 				</Button>
