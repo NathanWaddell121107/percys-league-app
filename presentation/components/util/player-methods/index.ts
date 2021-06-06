@@ -15,6 +15,20 @@ export async function fetchPlayers(): Promise<FetchPlayers> {
 	}
 }
 
+export async function fetchSelectedPlayers(): Promise<FetchPlayers> {
+	try {
+		const result = await axios.get(
+			`${window.location.origin}/api/get-selected-players`
+		)
+		const players: Player[] = result.data
+		if (players && players.length > 0) return { players, success: true }
+		else return { success: false }
+	} catch (error) {
+		console.log('error fetching the selected players: ', error)
+		return { success: false, error }
+	}
+}
+
 export async function playerDelete(
 	playerId: string
 ): Promise<DatabaseMutation> {
