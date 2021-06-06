@@ -2,18 +2,18 @@ import * as React from 'react'
 import * as Styled from './matches.styles'
 import { Player } from '../../interfaces/player'
 import LoadingIndicator from '../loading-indicator'
-import { fetchPlayers } from '../util/player-methods'
+import { fetchPlayers, fetchSelectedPlayers } from '../util/player-methods'
 import SelectPlayers from './select-players'
 import { Button } from 'reactstrap'
 import MatchedPlayersGames from './matched-players'
 
 const Matches: React.FC = () => {
-	const [selectPlayersModalIsOpen, setSelectPlayersModalIsOpen] = React.useState(
-		true
-	)
+	const [selectPlayersModalIsOpen, setSelectPlayersModalIsOpen] =
+		React.useState(false)
 	const [matchPlayers, setMatchPlayers] = React.useState(false)
 	const [selectedPlayers, setSelectedPlayers] = React.useState<Array<Player>>([])
 	const [playersList, setPlayersList] = React.useState<Array<Player>>()
+	const [loading, setLoading] = React.useState(true)
 
 	React.useEffect(() => {
 		const getPlayers = async () => {
@@ -31,7 +31,25 @@ const Matches: React.FC = () => {
 		getPlayers()
 	}, [])
 
-	if (!playersList) {
+	React.useEffect(() => {
+		const getSelectedPlayers = async () => {
+			const { players, success, error } = await fetchSelectedPlayers()
+			if (!success) {
+				if (error) alert('Uh-oh, couldn`t retrieve the players list')
+				else {
+					console.log('looks like there may not be any selected players yet')
+					setSelectPlayersModalIsOpen(true)
+				}
+			} else if (players && players.length > 0) {
+				setMatchPlayers(true)
+				setSelectedPlayers(players)
+			}
+		}
+		setLoading(false)
+		getSelectedPlayers()
+	}, [])
+
+	if (loading || !playersList) {
 		return <LoadingIndicator />
 	}
 
@@ -57,7 +75,12 @@ const Matches: React.FC = () => {
 					</Button>
 				</Styled.SelectPlayersMessage>
 			)}
-			{matchPlayers && <MatchedPlayersGames selectedPlayers={selectedPlayers} />}
+			{matchPlayers && (
+				<MatchedPlayersGames
+					selectedPlayers={selectedPlayers}
+					setSelectPlayersModalIsOpen={setSelectPlayersModalIsOpen}
+				/>
+			)}
 		</>
 	)
 }
