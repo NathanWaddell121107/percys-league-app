@@ -45,11 +45,11 @@ const Players: React.FC = () => {
 				onClick={() => setShowAddPlayers(true)}>
 				Add Players
 			</Button>
-			<Button style={{ margin: '1rem 0' }} color="secondary">
-				<Link href="/matches">
+			<Link href="/matches">
+				<Button style={{ margin: '1rem 0' }} color="secondary">
 					<span style={{ color: '#fff' }}>Create Matches</span>
-				</Link>
-			</Button>
+				</Button>
+			</Link>
 			{showAddPlayers && (
 				<AddPlayers
 					setShowAddPlayers={setShowAddPlayers}

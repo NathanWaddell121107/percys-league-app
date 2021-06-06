@@ -1,13 +1,6 @@
 import * as React from 'react'
 import * as Styled from './select-players.styles'
-import {
-	Button,
-	ListGroupItem,
-	Modal,
-	ModalBody,
-	ModalFooter,
-	ModalHeader
-} from 'reactstrap'
+import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap'
 import { Player } from '../../../interfaces/player'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
