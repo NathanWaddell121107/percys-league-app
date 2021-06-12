@@ -76,6 +76,7 @@ const SelectPlayers: React.FC<SelectPlayersProps> = ({
 				</Styled.SelectAll>
 				<Styled.PlayersContainer>
 					{players.map((player, index) => {
+						if (player.name === 'Bye') return null
 						return (
 							<Styled.ListPlayer
 								onClick={() => {

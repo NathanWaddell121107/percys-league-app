@@ -6,12 +6,16 @@ const addSelectedPlayers = async (
 	res: NextApiResponse
 ) => {
 	const { players } = req.body
+	const selectedPlayersDocument = {
+		date: new Date(),
+		selectedPlayers: players
+	}
 	try {
 		const client = await connectToDatabase()
 		const addedPlayers = await client
 			.db()
 			.collection('selectedplayers')
-			.insertMany(players)
+			.insert(selectedPlayersDocument)
 		res.json(addedPlayers)
 	} catch (error) {
 		res.status(error.status || 400).end(error.message)
