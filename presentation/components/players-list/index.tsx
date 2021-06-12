@@ -35,9 +35,8 @@ const PlayersList: React.FC<PlayersListProps> = ({
 		name: ''
 	})
 	const [playerDetails, setPlayerDetails] = React.useState<Player>({ name: '' })
-	const [playerDetailsModalIsOpen, setPlayerDetailsModalIsOpen] = React.useState(
-		false
-	)
+	const [playerDetailsModalIsOpen, setPlayerDetailsModalIsOpen] =
+		React.useState(false)
 	const [dropdownOpen, setDropdownOpen] = React.useState({
 		playerIndex: 0,
 		open: false
@@ -50,7 +49,7 @@ const PlayersList: React.FC<PlayersListProps> = ({
 		<>
 			<Styled.TitleDiv>
 				<Styled.ListTitle>Players List</Styled.ListTitle>
-				<p>{`${playersList?.length} players`}</p>
+				<p>{`${playersList ? playersList.length : '0'} players`}</p>
 			</Styled.TitleDiv>
 			<Styled.TableWrapper>
 				<Table size="sm" responsive dark>

@@ -12,17 +12,19 @@ const Players: React.FC = () => {
 	const [showAddPlayers, setShowAddPlayers] = React.useState(false)
 	const [playersList, setPlayersList] = React.useState<Array<Player>>()
 	const [userUpdatedPlayers, setUserUpdatedPlayers] = React.useState(false)
+	const [zeroPlayers, setZeroPlayers] = React.useState(false)
 
 	React.useEffect(() => {
 		const getPlayers = async () => {
 			const { players, success, error } = await fetchPlayers()
 			if (!success) {
 				if (error) alert('Uh-oh, couldn`t retrieve the players list')
-				else
-					console.log(
-						'looks like there may not be any players yet. Double check the players collection'
-					)
+				else setZeroPlayers(true)
+				console.log(
+					'looks like there may not be any players yet. Double check the players collection'
+				)
 			} else if (players && players.length > 0) {
+				setZeroPlayers(false)
 				setPlayersList(players)
 				setUserUpdatedPlayers(false)
 			}
@@ -30,7 +32,7 @@ const Players: React.FC = () => {
 		getPlayers()
 	}, [userUpdatedPlayers])
 
-	if (!playersList) {
+	if (!playersList && !zeroPlayers) {
 		return <LoadingIndicator />
 	}
 
@@ -45,11 +47,13 @@ const Players: React.FC = () => {
 				onClick={() => setShowAddPlayers(true)}>
 				Add Players
 			</Button>
-			<Link href="/matches">
-				<Button style={{ margin: '1rem 0' }} color="secondary">
-					<span style={{ color: '#fff' }}>Create Matches</span>
-				</Button>
-			</Link>
+			{playersList && (
+				<Link href="/matches">
+					<Button style={{ margin: '1rem 0' }} color="secondary">
+						<span style={{ color: '#fff' }}>Create Matches</span>
+					</Button>
+				</Link>
+			)}
 			{showAddPlayers && (
 				<AddPlayers
 					setShowAddPlayers={setShowAddPlayers}

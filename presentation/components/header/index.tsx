@@ -16,7 +16,7 @@ const Header: React.FC = () => {
 					</Link>
 					<Styled.HeaderMenuItems>
 						<Link href="/players">Players</Link>
-						<Link href="/">Schedule</Link>
+						<Link href="/">Standings</Link>
 					</Styled.HeaderMenuItems>
 					<Styled.IconWrapper>
 						<FontAwesomeIcon width="20px" icon={faBars} onClick={() => toggleNav()} />
