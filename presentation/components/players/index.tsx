@@ -1,16 +1,16 @@
 import * as React from 'react'
-import * as Styled from './players.styles'
 import { Button } from 'reactstrap'
+import Link from 'next/link'
 import { Player } from '../../interfaces/player'
 import AddPlayers from '../add-players'
+import LoadingIndicator from '../loading-indicator'
 import PlayersList from '../players-list'
 import { fetchPlayers } from '../util/player-methods'
-import LoadingIndicator from '../loading-indicator'
-import Link from 'next/link'
+import * as Styled from './players.styles'
 
 const Players: React.FC = () => {
 	const [showAddPlayers, setShowAddPlayers] = React.useState(false)
-	const [playersList, setPlayersList] = React.useState<Array<Player>>()
+	const [playersList, setPlayersList] = React.useState<Player[]>()
 	const [userUpdatedPlayers, setUserUpdatedPlayers] = React.useState(false)
 	const [zeroPlayers, setZeroPlayers] = React.useState(false)
 
@@ -29,7 +29,7 @@ const Players: React.FC = () => {
 				setUserUpdatedPlayers(false)
 			}
 		}
-		getPlayers()
+		void getPlayers()
 	}, [userUpdatedPlayers])
 
 	if (!playersList && !zeroPlayers) {

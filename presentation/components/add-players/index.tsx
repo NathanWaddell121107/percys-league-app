@@ -1,7 +1,4 @@
 import * as React from 'react'
-import * as Styled from './add-players.styles'
-import { faPlus } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
 	Button,
 	Form,
@@ -13,9 +10,12 @@ import {
 	ModalFooter,
 	ModalHeader
 } from 'reactstrap'
-import AddedPlayersList from '../added-players-list'
+import { faPlus } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Player } from '../../interfaces/player'
+import AddedPlayersList from '../added-players-list'
 import { addPlayersPost } from '../util/player-methods'
+import * as Styled from './add-players.styles'
 
 interface AddPlayersProps {
 	setShowAddPlayers: (showAddPlayers: boolean) => void
@@ -28,7 +28,7 @@ const AddPlayers: React.FC<AddPlayersProps> = ({
 	showAddPlayers,
 	setUserUpdatedPlayers
 }) => {
-	const [playersToBeAdded, setPlayersToBeAdded] = React.useState<Array<Player>>()
+	const [playersToBeAdded, setPlayersToBeAdded] = React.useState<Player[]>()
 	const [currentInput, setCurrentInput] = React.useState('')
 	const inputRef = React.useRef(null)
 
@@ -57,7 +57,9 @@ const AddPlayers: React.FC<AddPlayersProps> = ({
 						onSubmit={(e) => {
 							e.preventDefault()
 							if (playersToBeAdded && playersToBeAdded.length > 0) {
-								const addedPlayers = playersToBeAdded.concat({ name: currentInput })
+								const addedPlayers = playersToBeAdded.concat({
+									name: currentInput
+								})
 								setPlayersToBeAdded(addedPlayers)
 							} else setPlayersToBeAdded([{ name: currentInput }])
 							setCurrentInput('')

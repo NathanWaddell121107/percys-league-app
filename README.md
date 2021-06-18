@@ -5,13 +5,14 @@ An application to help in-house pool hall league operators manage / track league
 ## Getting Started
 
 ### Recommended vscode extensions
+
 - [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
 - [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
 - [Debugger for Chrome](https://marketplace.visualstudio.com/items?itemName=msjsdiag.debugger-for-chrome)
 
 ### Install dependencies with yarn
 
-```yarn```
+`yarn`
 
 ### Setting up the environment
 
@@ -32,7 +33,7 @@ runs at `http://localhost:3000`
 
 On the first time running the app, you may need to change the selected debug `RUN` option in the dropdown to `Debug: League App - Chrome`
 
-- Open the `Run and Debug` tab - *Windows*: `ctrl+shift+d` *Mac*: `⌘+shift+d`
+- Open the `Run and Debug` tab - _Windows_: `ctrl+shift+d` _Mac_: `⌘+shift+d`
 - Select `Debug: League App - Chrome` from the dropdown select menu
 - Press the green play button to launch chrome, start the server, and run the app
 
@@ -45,6 +46,10 @@ After the first run of the app, you should be able to run the app by just hittin
 There is a Production branch (`main`) and a Staging branch (`staging`)  
 Branch off of the `staging` branch and when you create a PR set it to be merged into the `staging` branch
 
+### Linting
+
+Before creating a PR please run `yarn lint` to check for linting / formatting errors
+
 ### Debugging
 
 The API is using the API Routes feature implemented in Next.js 9.  
@@ -54,4 +59,3 @@ Because of Next.js using AWS Serverless Lambda functions, the only good way to d
 ## Testing
 
 TBD...
-

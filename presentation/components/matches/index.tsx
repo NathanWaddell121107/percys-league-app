@@ -1,18 +1,18 @@
 import * as React from 'react'
-import * as Styled from './matches.styles'
+import { Button } from 'reactstrap'
 import { Player } from '../../interfaces/player'
 import LoadingIndicator from '../loading-indicator'
 import { fetchPlayers, fetchSelectedPlayers } from '../util/player-methods'
-import SelectPlayers from './select-players'
-import { Button } from 'reactstrap'
 import MatchedPlayersGames from './matched-players'
+import * as Styled from './matches.styles'
+import SelectPlayers from './select-players'
 
 const Matches: React.FC = () => {
 	const [selectPlayersModalIsOpen, setSelectPlayersModalIsOpen] =
 		React.useState(false)
 	const [matchPlayers, setMatchPlayers] = React.useState(false)
-	const [selectedPlayers, setSelectedPlayers] = React.useState<Array<Player>>([])
-	const [playersList, setPlayersList] = React.useState<Array<Player>>()
+	const [selectedPlayers, setSelectedPlayers] = React.useState<Player[]>([])
+	const [playersList, setPlayersList] = React.useState<Player[]>()
 	const [loading, setLoading] = React.useState(true)
 
 	React.useEffect(() => {
@@ -28,7 +28,7 @@ const Matches: React.FC = () => {
 				setPlayersList(players)
 			}
 		}
-		getPlayers()
+		void getPlayers()
 	}, [])
 
 	React.useEffect(() => {
@@ -46,7 +46,7 @@ const Matches: React.FC = () => {
 			}
 		}
 		setLoading(false)
-		getSelectedPlayers()
+		void getSelectedPlayers()
 	}, [])
 
 	if (loading || !playersList) {
@@ -67,7 +67,9 @@ const Matches: React.FC = () => {
 			)}
 			{!selectedPlayers && (
 				<Styled.SelectPlayersMessage>
-					<span>Please select the players you would like to create games for</span>
+					<span>
+						Please select the players you would like to create games for
+					</span>
 					<Button
 						onClick={() => setSelectPlayersModalIsOpen(true)}
 						color="secondary">

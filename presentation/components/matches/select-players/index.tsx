@@ -1,13 +1,13 @@
 import * as React from 'react'
-import * as Styled from './select-players.styles'
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap'
-import { Player } from '../../../interfaces/player'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Player } from '../../../interfaces/player'
 import {
 	addSelectedPlayersPost,
 	dropCollection
 } from '../../util/player-methods'
+import * as Styled from './select-players.styles'
 
 interface SelectPlayersProps {
 	selectPlayersModalIsOpen: boolean
@@ -38,7 +38,9 @@ const SelectPlayers: React.FC<SelectPlayersProps> = ({
 
 	const addSelectedPlayersToDatabase = async (): Promise<void> => {
 		if (!selectedPlayers) return
-		const byesRemoved = selectedPlayers.filter((player) => player.name !== 'Bye')
+		const byesRemoved = selectedPlayers.filter(
+			(player) => player.name !== 'Bye'
+		)
 		await dropCollection('selectedplayers')
 
 		const { success, error } = await addSelectedPlayersPost(byesRemoved)
@@ -54,7 +56,10 @@ const SelectPlayers: React.FC<SelectPlayersProps> = ({
 	}
 
 	return (
-		<Modal style={{ color: 'black' }} size="lg" isOpen={selectPlayersModalIsOpen}>
+		<Modal
+			style={{ color: 'black' }}
+			size="lg"
+			isOpen={selectPlayersModalIsOpen}>
 			<ModalHeader>Select players</ModalHeader>
 			<ModalBody>
 				<Styled.Explanation>
@@ -76,6 +81,7 @@ const SelectPlayers: React.FC<SelectPlayersProps> = ({
 				</Styled.SelectAll>
 				<Styled.PlayersContainer>
 					{players.map((player, index) => {
+						if (player.name === 'Bye') return null
 						return (
 							<Styled.ListPlayer
 								onClick={() => {

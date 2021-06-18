@@ -36,7 +36,9 @@ const EditPlayer: React.FC<EditPlayerProps> = ({
 				<EditPlayerForm editPlayer={editPlayer} setEditPlayer={setEditPlayer} />
 			</ModalBody>
 			<ModalFooter>
-				<Button color="secondary" onClick={() => setEditPlayerModalIsOpen(false)}>
+				<Button
+					color="secondary"
+					onClick={() => setEditPlayerModalIsOpen(false)}>
 					Cancel
 				</Button>
 				<Button color="primary" onClick={() => submitEditPlayer()}>

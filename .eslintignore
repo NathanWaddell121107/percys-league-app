@@ -5,8 +5,8 @@ node_modules
 .vercel
 .github
 .next
-.eslintrc.js
-jest.config.js
+.eslintrc.json
+_document.js
 prettier.config.js
 README.md
 yarn-error.log

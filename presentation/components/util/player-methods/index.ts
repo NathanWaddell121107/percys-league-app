@@ -2,6 +2,8 @@ import axios from 'axios'
 import { DatabaseMutation } from '../../../interfaces/database-mutation'
 import { FetchPlayers } from '../../../interfaces/fetch-players'
 import { Player } from '../../../interfaces/player'
+import { SelectedPlayers } from '../../../interfaces/selected-players'
+import datesMatch from '../dates-match'
 
 export async function fetchPlayers(): Promise<FetchPlayers> {
 	try {
@@ -11,7 +13,7 @@ export async function fetchPlayers(): Promise<FetchPlayers> {
 		else return { success: false }
 	} catch (error) {
 		console.log('error fetching the players: ', error)
-		return { success: false, error }
+		return { error, success: false }
 	}
 }
 
@@ -20,12 +22,15 @@ export async function fetchSelectedPlayers(): Promise<FetchPlayers> {
 		const result = await axios.get(
 			`${window.location.origin}/api/get-selected-players`
 		)
-		const players: Player[] = result.data
-		if (players && players.length > 0) return { players, success: true }
+		const selectedPlayers: SelectedPlayers = result.data[0]
+		const playersSelectedToday = datesMatch(selectedPlayers.date)
+		const players: Player[] | undefined = selectedPlayers.selectedPlayers
+
+		if (playersSelectedToday && players && players.length > 0) return { players, success: true }
 		else return { success: false }
 	} catch (error) {
 		console.log('error fetching the selected players: ', error)
-		return { success: false, error }
+		return { error, success: false }
 	}
 }
 
@@ -43,7 +48,7 @@ export async function playerDelete(
 		else return { success: false }
 	} catch (error) {
 		console.log('error deleting the player: ', error)
-		return { success: false, error }
+		return { error, success: false }
 	}
 }
 
@@ -51,14 +56,17 @@ export async function addPlayersPost(
 	playerNames: Player[]
 ): Promise<DatabaseMutation> {
 	try {
-		const result = await axios.post(`${window.location.origin}/api/add-players`, {
-			playerNames
-		})
+		const result = await axios.post(
+			`${window.location.origin}/api/add-players`,
+			{
+				playerNames
+			}
+		)
 		if (result.data.insertedCount > 0) return { success: true }
 		else return { success: false }
 	} catch (error) {
 		console.log('error adding a player: ', error)
-		return { success: false, error }
+		return { error, success: false }
 	}
 }
 
@@ -76,7 +84,7 @@ export async function addSelectedPlayersPost(
 		else return { success: false }
 	} catch (error) {
 		console.log('error adding a selected player: ', error)
-		return { success: false, error }
+		return { error, success: false }
 	}
 }
 
@@ -92,7 +100,7 @@ export async function updatePlayer(player: Player): Promise<DatabaseMutation> {
 		else return { success: false }
 	} catch (error) {
 		console.log('error updating the player: ', error)
-		return { success: false, error }
+		return { error, success: false }
 	}
 }
 
@@ -106,7 +114,7 @@ export async function dropCollection(
 		return { success: true }
 	} catch (error) {
 		// Shouldn't matter - not a critical error while testing
-		// console.log('error dropping the collection: ', error)
-		return { success: false, error }
+		console.log('error dropping the collection: ', error)
+		return { error, success: false }
 	}
 }

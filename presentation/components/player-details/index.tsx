@@ -1,16 +1,16 @@
 import * as React from 'react'
-import * as Styled from './player-details.styles'
 import {
-	Modal,
-	ModalHeader,
-	ModalBody,
-	ModalFooter,
 	Button,
 	ListGroup,
-	ListGroupItem
+	ListGroupItem,
+	Modal,
+	ModalBody,
+	ModalFooter,
+	ModalHeader
 } from 'reactstrap'
 import { Player } from '../../interfaces/player'
 import findGameTypes from '../util/find-game-types'
+import * as Styled from './player-details.styles'
 
 interface PlayerDetailsProps {
 	player: Player
@@ -24,7 +24,10 @@ const PlayerDetails: React.FC<PlayerDetailsProps> = ({
 	setPlayerDetailsModalIsOpen
 }) => {
 	return (
-		<Modal style={{ color: 'black' }} isOpen={playerDetailsModalIsOpen} size="lg">
+		<Modal
+			style={{ color: 'black' }}
+			isOpen={playerDetailsModalIsOpen}
+			size="lg">
 			<ModalHeader>{`Player Details - ${player.name}`}</ModalHeader>
 			<ModalBody>
 				<ListGroup>
@@ -47,7 +50,9 @@ const PlayerDetails: React.FC<PlayerDetailsProps> = ({
 				</ListGroup>
 			</ModalBody>
 			<ModalFooter>
-				<Button color="primary" onClick={() => setPlayerDetailsModalIsOpen(false)}>
+				<Button
+					color="primary"
+					onClick={() => setPlayerDetailsModalIsOpen(false)}>
 					Done
 				</Button>
 			</ModalFooter>
