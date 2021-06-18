@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { connectToDatabase } from '../../db/mongodb'
+import getDateObject from '../../presentation/components/util/get-date-object'
 
 const addSelectedPlayers = async (
 	req: NextApiRequest,
@@ -7,7 +8,7 @@ const addSelectedPlayers = async (
 ): Promise<void> => {
 	const { players } = req.body
 	const selectedPlayersDocument = {
-		date: new Date(),
+		date: getDateObject(),
 		selectedPlayers: players
 	}
 	try {
