@@ -1,7 +1,10 @@
-import { connectToDatabase } from '../../db/mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
+import { connectToDatabase } from '../../db/mongodb'
 
-const addPlayers = async (req: NextApiRequest, res: NextApiResponse) => {
+const addPlayers = async (
+	req: NextApiRequest,
+	res: NextApiResponse
+): Promise<void> => {
 	const { playerNames } = req.body
 	try {
 		const client = await connectToDatabase()

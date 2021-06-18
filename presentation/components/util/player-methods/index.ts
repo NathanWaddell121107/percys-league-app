@@ -11,7 +11,7 @@ export async function fetchPlayers(): Promise<FetchPlayers> {
 		else return { success: false }
 	} catch (error) {
 		console.log('error fetching the players: ', error)
-		return { success: false, error }
+		return { error, success: false }
 	}
 }
 
@@ -25,7 +25,7 @@ export async function fetchSelectedPlayers(): Promise<FetchPlayers> {
 		else return { success: false }
 	} catch (error) {
 		console.log('error fetching the selected players: ', error)
-		return { success: false, error }
+		return { error, success: false }
 	}
 }
 
@@ -43,7 +43,7 @@ export async function playerDelete(
 		else return { success: false }
 	} catch (error) {
 		console.log('error deleting the player: ', error)
-		return { success: false, error }
+		return { error, success: false }
 	}
 }
 
@@ -51,14 +51,17 @@ export async function addPlayersPost(
 	playerNames: Player[]
 ): Promise<DatabaseMutation> {
 	try {
-		const result = await axios.post(`${window.location.origin}/api/add-players`, {
-			playerNames
-		})
+		const result = await axios.post(
+			`${window.location.origin}/api/add-players`,
+			{
+				playerNames
+			}
+		)
 		if (result.data.insertedCount > 0) return { success: true }
 		else return { success: false }
 	} catch (error) {
 		console.log('error adding a player: ', error)
-		return { success: false, error }
+		return { error, success: false }
 	}
 }
 
@@ -76,7 +79,7 @@ export async function addSelectedPlayersPost(
 		else return { success: false }
 	} catch (error) {
 		console.log('error adding a selected player: ', error)
-		return { success: false, error }
+		return { error, success: false }
 	}
 }
 
@@ -92,7 +95,7 @@ export async function updatePlayer(player: Player): Promise<DatabaseMutation> {
 		else return { success: false }
 	} catch (error) {
 		console.log('error updating the player: ', error)
-		return { success: false, error }
+		return { error, success: false }
 	}
 }
 
@@ -107,6 +110,6 @@ export async function dropCollection(
 	} catch (error) {
 		// Shouldn't matter - not a critical error while testing
 		// console.log('error dropping the collection: ', error)
-		return { success: false, error }
+		return { error, success: false }
 	}
 }

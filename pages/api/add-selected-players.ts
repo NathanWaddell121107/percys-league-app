@@ -1,10 +1,10 @@
-import { connectToDatabase } from '../../db/mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
+import { connectToDatabase } from '../../db/mongodb'
 
 const addSelectedPlayers = async (
 	req: NextApiRequest,
 	res: NextApiResponse
-) => {
+): Promise<void> => {
 	const { players } = req.body
 	const selectedPlayersDocument = {
 		date: new Date(),

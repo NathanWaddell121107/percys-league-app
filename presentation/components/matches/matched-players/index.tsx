@@ -1,9 +1,9 @@
 import * as React from 'react'
-import * as Styled from './matched-players.styles'
+import { Table } from 'reactstrap'
+import { MatchedPlayers } from '../../../interfaces/matched-players'
 import { Player } from '../../../interfaces/player'
 import randomPlayerPairings from '../../util/random-player-pairings'
-import { MatchedPlayers } from '../../../interfaces/matched-players'
-import { Table } from 'reactstrap'
+import * as Styled from './matched-players.styles'
 
 interface MatchedPlayersProps {
 	selectedPlayers: Player[]
@@ -14,8 +14,7 @@ const MatchedPlayersGames: React.FC<MatchedPlayersProps> = ({
 	selectedPlayers,
 	setSelectPlayersModalIsOpen
 }) => {
-	const [matchedPlayers, setMatchedPlayers] =
-		React.useState<Array<MatchedPlayers>>()
+	const [matchedPlayers, setMatchedPlayers] = React.useState<MatchedPlayers[]>()
 
 	React.useEffect(() => {
 		setMatchedPlayers(randomPlayerPairings(selectedPlayers))
@@ -38,9 +37,9 @@ const MatchedPlayersGames: React.FC<MatchedPlayersProps> = ({
 				style={{
 					color: '#fff',
 					maxWidth: '1200px',
-					width: '95%',
+					tableLayout: 'fixed',
 					textAlign: 'center',
-					tableLayout: 'fixed'
+					width: '95%'
 				}}
 				bordered
 				dark

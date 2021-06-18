@@ -1,5 +1,4 @@
 import * as React from 'react'
-import * as Styled from './players-list.styles'
 import {
 	Dropdown,
 	DropdownItem,
@@ -7,12 +6,13 @@ import {
 	DropdownToggle,
 	Table
 } from 'reactstrap'
-import { Player } from '../../interfaces/player'
-import EditPlayer from '../edit-player'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEllipsisH } from '@fortawesome/free-solid-svg-icons'
-import PlayerDetails from '../player-details'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Player } from '../../interfaces/player'
 import DeletePlayerConfirmation from '../delete-player-confirmation'
+import EditPlayer from '../edit-player'
+import PlayerDetails from '../player-details'
+import * as Styled from './players-list.styles'
 
 interface PlayersListProps {
 	playersList?: Player[]
@@ -23,7 +23,8 @@ const PlayersList: React.FC<PlayersListProps> = ({
 	playersList,
 	setUserUpdatedPlayers
 }) => {
-	const [editPlayerModalIsOpen, setEditPlayerModalIsOpen] = React.useState(false)
+	const [editPlayerModalIsOpen, setEditPlayerModalIsOpen] =
+		React.useState(false)
 	const [
 		deletePlayerConfirmationModalIsOpen,
 		setDeletePlayerConfirmationModalIsOpen
@@ -38,11 +39,11 @@ const PlayersList: React.FC<PlayersListProps> = ({
 	const [playerDetailsModalIsOpen, setPlayerDetailsModalIsOpen] =
 		React.useState(false)
 	const [dropdownOpen, setDropdownOpen] = React.useState({
-		playerIndex: 0,
-		open: false
+		open: false,
+		playerIndex: 0
 	})
 	const toggle = (playerIndex: number) => {
-		setDropdownOpen({ playerIndex, open: !dropdownOpen.open })
+		setDropdownOpen({ open: !dropdownOpen.open, playerIndex })
 	}
 
 	return (
@@ -67,9 +68,12 @@ const PlayersList: React.FC<PlayersListProps> = ({
 									<tr key={index}>
 										<td style={{ paddingLeft: '10px' }}>{player.skillLevel}</td>
 										<td>{player.name}</td>
-										<td style={{ textAlign: 'end', paddingRight: '0.5rem' }}>
+										<td style={{ paddingRight: '0.5rem', textAlign: 'end' }}>
 											<Dropdown
-												isOpen={dropdownOpen.playerIndex === index && dropdownOpen.open}
+												isOpen={
+													dropdownOpen.playerIndex === index &&
+													dropdownOpen.open
+												}
 												toggle={() => toggle(index)}>
 												<DropdownToggle
 													style={{ cursor: 'pointer', paddingRight: '0.5rem' }}
@@ -125,7 +129,9 @@ const PlayersList: React.FC<PlayersListProps> = ({
 			{deletePlayerConfirmationModalIsOpen && (
 				<DeletePlayerConfirmation
 					player={playerToBeDeleted}
-					deletePlayerConfirmationModalIsOpen={deletePlayerConfirmationModalIsOpen}
+					deletePlayerConfirmationModalIsOpen={
+						deletePlayerConfirmationModalIsOpen
+					}
 					setDeletePlayerConfirmationModalIsOpen={
 						setDeletePlayerConfirmationModalIsOpen
 					}
