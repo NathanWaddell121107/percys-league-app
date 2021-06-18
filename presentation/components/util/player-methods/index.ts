@@ -2,7 +2,7 @@ import axios from 'axios'
 import { DatabaseMutation } from '../../../interfaces/database-mutation'
 import { FetchPlayers } from '../../../interfaces/fetch-players'
 import { Player } from '../../../interfaces/player'
-import getDateObject from '../get-date-object'
+import datesMatch from '../dates-match'
 
 export async function fetchPlayers(): Promise<FetchPlayers> {
 	try {
@@ -18,16 +18,13 @@ export async function fetchPlayers(): Promise<FetchPlayers> {
 
 export async function fetchSelectedPlayers(): Promise<FetchPlayers> {
 	try {
-		const todaysDate = getDateObject()
-		console.log('todaysDate: ', todaysDate)
 		const result = await axios.get(
 			`${window.location.origin}/api/get-selected-players`
 		)
-		console.log('result: ', result)
-		console.log('playersDate: ', result.data[0].date)
-		// const playersListDatesMatch = 
-		const players: Player[] = result.data.selectedPlayers
-		if (players && players.length > 0) return { players, success: true }
+		const playersSelectedToday = datesMatch(result.data[0].date)
+		const players: Player[] = result.data[0].selectedPlayers
+
+		if (playersSelectedToday && players && players.length > 0) return { players, success: true }
 		else return { success: false }
 	} catch (error) {
 		console.log('error fetching the selected players: ', error)
