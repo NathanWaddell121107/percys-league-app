@@ -1,7 +1,8 @@
+import { DateObject } from "./date-object";
 import { Player } from "./player";
 
 export interface SelectedPlayers {
 	_id?: string
-  date?: {month: number, day: number, year: number}
+  date?: DateObject
   selectedPlayers?: Player[]
 }

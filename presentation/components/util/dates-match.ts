@@ -1,7 +1,8 @@
 import { DateObject } from "../../interfaces/date-object";
 import getDateObject from "./get-date-object";
 
-export default function datesMatch(playersSelectedDate: DateObject): boolean {
+export default function datesMatch(playersSelectedDate?: DateObject): boolean {
+  if (!playersSelectedDate) return false
   const { month, day, year } = playersSelectedDate
   const { month: todaysMonth, day: todaysDay, year: todaysYear } = getDateObject()
   

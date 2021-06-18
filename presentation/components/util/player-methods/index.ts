@@ -2,6 +2,7 @@ import axios from 'axios'
 import { DatabaseMutation } from '../../../interfaces/database-mutation'
 import { FetchPlayers } from '../../../interfaces/fetch-players'
 import { Player } from '../../../interfaces/player'
+import { SelectedPlayers } from '../../../interfaces/selected-players'
 import datesMatch from '../dates-match'
 
 export async function fetchPlayers(): Promise<FetchPlayers> {
@@ -21,8 +22,9 @@ export async function fetchSelectedPlayers(): Promise<FetchPlayers> {
 		const result = await axios.get(
 			`${window.location.origin}/api/get-selected-players`
 		)
-		const playersSelectedToday = datesMatch(result.data[0].date)
-		const players: Player[] = result.data[0].selectedPlayers
+		const selectedPlayers: SelectedPlayers = result.data[0]
+		const playersSelectedToday = datesMatch(selectedPlayers.date)
+		const players: Player[] | undefined = selectedPlayers.selectedPlayers
 
 		if (playersSelectedToday && players && players.length > 0) return { players, success: true }
 		else return { success: false }
@@ -112,7 +114,7 @@ export async function dropCollection(
 		return { success: true }
 	} catch (error) {
 		// Shouldn't matter - not a critical error while testing
-		// console.log('error dropping the collection: ', error)
+		console.log('error dropping the collection: ', error)
 		return { error, success: false }
 	}
 }
