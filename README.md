@@ -23,7 +23,7 @@ _if this command doesn't work, ask a friendly dev to send the updated list and c
 
 #### List of current env variables
 
-`MONGODB_URI="CHANGEME"` - the connection string for the mongo cluster/database
+`MONGODB_URI="CHANGEME"` - the connection string for the mongo cluster/database  
 `MONGODB_DB="CHANGEME"` - the actual name of the database for the environment
 
 ### Running the app
@@ -42,12 +42,13 @@ After the first run of the app, you should be able to run the app by just hittin
 
 ### Development cycle
 
-There is a Production branch (`main`) and a Staging branch (`staging`)
+There is a Production branch (`main`) and a Staging branch (`staging`)  
 Branch off of the `staging` branch and when you create a PR set it to be merged into the `staging` branch
 
 ### Debugging
 
-The API is using the API Routes feature implemented in Next.js 9. No issues debugging locally but if something does not work in the deployment it can be tricky to debug.
+The API is using the API Routes feature implemented in Next.js 9.  
+No issues debugging locally but if something does not work in the deployment it can be tricky to debug.  
 Because of Next.js using AWS Serverless Lambda functions, the only good way to debug a preview deployment that I have found so far is to add logs and search for the logs / errors in the Vercel deployment function logs
 
 ## Testing
