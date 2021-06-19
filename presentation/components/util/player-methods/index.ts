@@ -26,7 +26,8 @@ export async function fetchSelectedPlayers(): Promise<FetchPlayers> {
 		const playersSelectedToday = datesMatch(selectedPlayers.date)
 		const players: Player[] | undefined = selectedPlayers.selectedPlayers
 
-		if (playersSelectedToday && players && players.length > 0) return { players, success: true }
+		if (playersSelectedToday && players && players.length > 0)
+			return { players, success: true }
 		else return { success: false }
 	} catch (error) {
 		console.log('error fetching the selected players: ', error)

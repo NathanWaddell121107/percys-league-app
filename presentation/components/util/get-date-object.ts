@@ -1,9 +1,9 @@
-import { DateObject } from "../../interfaces/date-object"
+import { DateObject } from '../../interfaces/date-object'
 
 export default function getDateObject(): DateObject {
 	const dateObj = new Date()
 	const month = dateObj.getUTCMonth() + 1
 	const day = dateObj.getUTCDate()
 	const year = dateObj.getUTCFullYear()
-	return {day, month, year}
+	return { day, month, year }
 }
