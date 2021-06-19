@@ -22,6 +22,7 @@ export async function fetchSelectedPlayers(): Promise<FetchPlayers> {
 		const result = await axios.get(
 			`${window.location.origin}/api/get-selected-players`
 		)
+		if (!result.data.length) return { success: false }
 		const selectedPlayers: SelectedPlayers = result.data[0]
 		const playersSelectedToday = datesMatch(selectedPlayers.date)
 		const players: Player[] | undefined = selectedPlayers.selectedPlayers
