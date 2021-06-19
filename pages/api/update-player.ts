@@ -1,9 +1,12 @@
-import { connectToDatabase } from '../../db/mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { ObjectID } from 'mongodb'
+import { connectToDatabase } from '../../db/mongodb'
 import { Player } from '../../presentation/interfaces/player'
 
-const updatePlayer = async (req: NextApiRequest, res: NextApiResponse) => {
+const updatePlayer = async (
+	req: NextApiRequest,
+	res: NextApiResponse
+): Promise<void> => {
 	const { player } = req.body
 	const playerCopy: Player = Object.assign({}, player)
 	delete playerCopy._id

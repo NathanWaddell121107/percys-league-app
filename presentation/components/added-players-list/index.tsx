@@ -1,9 +1,9 @@
 import * as React from 'react'
-import * as Styled from './added-players-list.styles'
+import { ListGroup, ListGroupItem } from 'reactstrap'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { ListGroup, ListGroupItem } from 'reactstrap'
 import { Player } from '../../interfaces/player'
+import * as Styled from './added-players-list.styles'
 
 interface AddedPlayersListProps {
 	playersList?: Player[]

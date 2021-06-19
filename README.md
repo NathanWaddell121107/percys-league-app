@@ -1,34 +1,61 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Pool League App
+
+An application to help in-house pool hall league operators manage / track league data
 
 ## Getting Started
 
-First, run the development server:
+### Recommended vscode extensions
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+- [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
+- [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
+- [Debugger for Chrome](https://marketplace.visualstudio.com/items?itemName=msjsdiag.debugger-for-chrome)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Install dependencies with yarn
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+`yarn`
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+### Setting up the environment
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+run the command below to automatically populate the required environment variables
 
-## Learn More
+_if this command doesn't work, ask a friendly dev to send the updated list and create / add these to a .env file in the root of the project_
 
-To learn more about Next.js, take a look at the following resources:
+`yarn pull-env`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+#### List of current env variables
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+`MONGODB_URI="CHANGEME"` - the connection string for the mongo cluster/database  
+`MONGODB_DB="CHANGEME"` - the actual name of the database for the environment
 
-## Deploy on Vercel
+### Running the app
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/import?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+runs at `http://localhost:3000`
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+On the first time running the app, you may need to change the selected debug `RUN` option in the dropdown to `Debug: League App - Chrome`
+
+- Open the `Run and Debug` tab - _Windows_: `ctrl+shift+d` _Mac_: `⌘+shift+d`
+- Select `Debug: League App - Chrome` from the dropdown select menu
+- Press the green play button to launch chrome, start the server, and run the app
+
+After the first run of the app, you should be able to run the app by just hitting `f5`
+
+## Development information
+
+### Development cycle
+
+There is a Production branch (`main`) and a Staging branch (`staging`)  
+Branch off of the `staging` branch and when you create a PR set it to be merged into the `staging` branch
+
+### Linting
+
+Before creating a PR please run `yarn lint` to check for linting / formatting errors
+
+### Debugging
+
+The API is using the API Routes feature implemented in Next.js 9.  
+No issues debugging locally but if something does not work in the deployment it can be tricky to debug.  
+Because of Next.js using AWS Serverless Lambda functions, the only good way to debug a preview deployment that I have found so far is to add logs and search for the logs / errors in the Vercel deployment function logs
+
+## Testing
+
+TBD...

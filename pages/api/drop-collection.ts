@@ -1,7 +1,10 @@
-import { connectToDatabase } from '../../db/mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
+import { connectToDatabase } from '../../db/mongodb'
 
-const dropCollection = async (req: NextApiRequest, res: NextApiResponse) => {
+const dropCollection = async (
+	req: NextApiRequest,
+	res: NextApiResponse
+): Promise<void> => {
 	const { collection } = req.body
 	try {
 		const client = await connectToDatabase()

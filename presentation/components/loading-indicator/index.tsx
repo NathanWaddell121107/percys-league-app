@@ -1,6 +1,6 @@
 import * as React from 'react'
-import * as Styled from './loading-indicator.styles'
 import { Spinner } from 'reactstrap'
+import * as Styled from './loading-indicator.styles'
 
 const LoadingIndicator: React.FC = () => {
 	return (
