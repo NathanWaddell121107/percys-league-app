@@ -16,9 +16,13 @@ const MatchedPlayersGames: React.FC<MatchedPlayersProps> = ({
 }) => {
 	const [matchedPlayers, setMatchedPlayers] = React.useState<MatchedPlayers[]>()
 
-	React.useEffect(() => {
+	const shufflePlayers = React.useCallback(() => {
 		setMatchedPlayers(randomPlayerPairings(selectedPlayers))
 	}, [selectedPlayers])
+
+	React.useEffect(() => {
+		shufflePlayers()
+	}, [selectedPlayers, shufflePlayers])
 
 	const createNameAndSkillLevel = (player: Player | undefined) => {
 		if (!player) return ''
@@ -29,6 +33,7 @@ const MatchedPlayersGames: React.FC<MatchedPlayersProps> = ({
 		<Styled.MatchedPlayersWrapper>
 			<Styled.TitleDiv>
 				<h2>Games</h2>
+				<span onClick={() => shufflePlayers()}>Shuffle Players</span>
 				<span onClick={() => setSelectPlayersModalIsOpen(true)}>
 					Change Players
 				</span>

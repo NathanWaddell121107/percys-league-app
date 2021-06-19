@@ -67,9 +67,7 @@ const Matches: React.FC = () => {
 			)}
 			{!selectedPlayers && (
 				<Styled.SelectPlayersMessage>
-					<span>
-						Please select the players you would like to create games for
-					</span>
+					<span>Please select the players you would like to create games for</span>
 					<Button
 						onClick={() => setSelectPlayersModalIsOpen(true)}
 						color="secondary">

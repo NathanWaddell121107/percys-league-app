@@ -38,9 +38,7 @@ const SelectPlayers: React.FC<SelectPlayersProps> = ({
 
 	const addSelectedPlayersToDatabase = async (): Promise<void> => {
 		if (!selectedPlayers) return
-		const byesRemoved = selectedPlayers.filter(
-			(player) => player.name !== 'Bye'
-		)
+		const byesRemoved = selectedPlayers.filter((player) => player.name !== 'Bye')
 		await dropCollection('selectedplayers')
 
 		const { success, error } = await addSelectedPlayersPost(byesRemoved)
@@ -56,15 +54,12 @@ const SelectPlayers: React.FC<SelectPlayersProps> = ({
 	}
 
 	return (
-		<Modal
-			style={{ color: 'black' }}
-			size="lg"
-			isOpen={selectPlayersModalIsOpen}>
+		<Modal style={{ color: 'black' }} size="lg" isOpen={selectPlayersModalIsOpen}>
 			<ModalHeader>Select players</ModalHeader>
 			<ModalBody>
 				<Styled.Explanation>
 					Click on the player names in the list below to select (click twice to
-					unselect), then click the Create Games button
+					deselect) then click the Create Games button
 				</Styled.Explanation>
 				<Styled.SelectAll>
 					<span
