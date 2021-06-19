@@ -64,7 +64,7 @@ const SelectPlayers: React.FC<SelectPlayersProps> = ({
 			<ModalBody>
 				<Styled.Explanation>
 					Click on the player names in the list below to select (click twice to
-					unselect), then click the Create Games button
+					deselect) then click the Create Games button
 				</Styled.Explanation>
 				<Styled.SelectAll>
 					<span
