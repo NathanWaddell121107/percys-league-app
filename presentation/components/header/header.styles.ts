@@ -28,6 +28,7 @@ export const HeaderLogo = styled.div`
 export const HeaderMenuItems = styled.div`
 	display: flex;
 	justify-content: space-evenly;
+	align-items: center;
 	width: 30%;
 	> a {
 		text-decoration: none;

@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 export const MainPageWrapper = styled.div`
 	margin: 0 auto;
-	margin-top: 5rem;
+	margin-top: 10rem;
 	max-width: 1200px;
 	width: 88%;
 	height: 85vh;

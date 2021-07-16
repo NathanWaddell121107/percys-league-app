@@ -1,18 +1,25 @@
 import * as React from 'react'
+import { useUser } from '@auth0/nextjs-auth0'
+import LoadingIndicator from '../loading-indicator'
 import * as Styled from './main-page.styles'
 
-/*
-TODO:
-    Need to add the ability to mark a players skill level this will allow for quick reference as well as being able to calculate
-    the correct races between the two players dynamically
-*/
-
 const MainPage: React.FC = () => {
+	const { user, error, isLoading } = useUser()
+
+	const displayUserInformation = (): string | JSX.Element => {
+		if (isLoading) {
+			return <LoadingIndicator />
+		} else if (error) {
+			return 'Uh-oh, looks like there was an error trying to login.'
+		} else if (!user) {
+			return 'Please login or signup to get started!'
+		} else {
+			return `Welcome back, ${user.name}! Head to the players page to get started.`
+		}
+	}
+
 	return (
-		<Styled.MainPageWrapper>
-			Nothing here, need to design this page as a landing page <br /> Go to the
-			players page
-		</Styled.MainPageWrapper>
+		<Styled.MainPageWrapper>{displayUserInformation()}</Styled.MainPageWrapper>
 	)
 }
 
